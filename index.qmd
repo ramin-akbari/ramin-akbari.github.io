@@ -17,7 +17,7 @@ I also have background in computational mechanics, specifically working with the
 
 <br>
 
-::: {.d-flex .flex-wrap .gap-2}
+::: {.d-flex .flex-wrap .column-gap-2 .row-gap-3}
 [<i class="bi bi-linkedin"></i> LinkedIn](https://www.linkedin.com/in/ramin-akbari-a7580025b/){.btn .btn-outline-primary .btn-sm}
 [<i class="bi bi-mortarboard"></i> Google Scholar](https://scholar.google.com/citations?user=Q2kM_tcAAAAJ&hl=en){.btn .btn-outline-primary .btn-sm}
 [<i class="bi bi-file-earmark-person"></i> CV](cv.pdf){.btn .btn-outline-primary .btn-sm}
