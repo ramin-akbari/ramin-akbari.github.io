@@ -1,0 +1,19 @@
+---
+title: "Obliviator Reveals the Cost of Nonlinear Guardedness"
+author: "Ramin Akbari"
+date: "2026-03-10"
+subtitle: "NeurIPS 2025"
+categories: [Representation Learning, Statistical Independence, Kernel Methods]
+image: "teaser.png"
+description: |
+ We present Obliviator, a method designed to capture and remove specific concept dependencies within the learned representations of pre-trained language models. Concept Erasure presents two central challenges: first, we need to target all modes of dependency, whether linear or nonlinear, and second, the requirement to leave unrelated encoded information untouched. We elaborate on how Obliviator successfully navigates this balance to achieve a robust utility-erasure trade-off. <br><br>
+  <a href="https://arxiv.org/abs/2603.07529" class="btn btn-secondary btn-sm"><i class="bi bi-file-earmark-pdf"></i> arXiv</a>
+  <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-secondary btn-sm"><i class="bi bi-github"></i> Code</a>
+  <a href="nips-slides/index.html" class="btn btn-secondary btn-sm"><i class="bi bi-file-slides"></i> Slides</a>
+  <a href="/posts/obliviator/poster.png" class="btn btn-secondary btn-sm"><i class="bi bi-easel"></i> Poster</a>
+
+---
+
+## What is Concept Erasure ?
+Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries since they fail to capture statistical dependencies between unwanted concepts and learned representations. 
+We introduce **Obliviator**, which captures nonlinear statistical dependencies and successfully guards against nonlinear adversaries. We propose an iterative approach to prevent mode-collapse and preserve as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.

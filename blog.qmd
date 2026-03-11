@@ -1,0 +1,13 @@
+---
+title: "Blog"
+page-layout: full
+title-block-banner: false
+body-classes: blog-page
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  image-align: left
+  fields: [image, title,subtitle, description, categories]
+---

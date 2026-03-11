@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Obliviator Reveals the Cost of Nonlinear Guardedness\n\n\nNeurIPS 2025\n\n\n\nRepresentation Learning\n\nStatistical Independence\n\nKernel Methods\n\n\n\nWe present Obliviator, a method designed to capture and remove specific concept dependencies within the learned representations of pre-trained language models. Concept Erasure presents two central challenges: first, we need to target all modes of dependency, whether linear or nonlinear, and second, the requirement to leave unrelated encoded information untouched. We elaborate on how Obliviator successfully navigates this balance to achieve a robust utility-erasure trade-off.   arXiv  Code  Slides  Poster\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/obliviator/index.html",
+    "href": "posts/obliviator/index.html",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "",
+    "text": "Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries since they fail to capture statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, which captures nonlinear statistical dependencies and successfully guards against nonlinear adversaries. We propose an iterative approach to prevent mode-collapse and preserve as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off."
+  },
+  {
+    "objectID": "posts/obliviator/index.html#what-is-concept-erasure",
+    "href": "posts/obliviator/index.html#what-is-concept-erasure",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "",
+    "text": "Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries since they fail to capture statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, which captures nonlinear statistical dependencies and successfully guards against nonlinear adversaries. We propose an iterative approach to prevent mode-collapse and preserve as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Ramin Akbari",
+    "section": "",
+    "text": "I am a Ph.D. student in Computer Science and Engineering at Michigan State University, advised by Dr. Vishnu Boddeti. I work on statistical machine learning with a primary focus on the mathematics of controlling representations. My research aims to develop algorithms that mitigate bias in AI models, improve fairness, protect data privacy, and advance safe and trustworthy AI systems.\nI also have background in computational mechanics, specifically working with the eXtended Finite Element Method (XFEM), computational homogenization and the constitutive modeling of hyper-elastic material.\n\nPh.D. Student in Computer Science | Michigan State University\nM.Sc. in Structural Mechanics | Sharif University of Technology\nB.Sc. in Civil Engineering | University of Tehran\n\n\n GitHub  Google Scholar  CV  LinkedIn  Email"
+  },
+  {
+    "objectID": "index.html#news",
+    "href": "index.html#news",
+    "title": "Ramin Akbari",
+    "section": "📢 News",
+    "text": "📢 News\n\n\nJan 2026\n\n\nExtended my internship at Sartorius for the spring semester.\n\n\nSep 2025\n\n\nOur paper Obliviator Reveals the Cost of Nonlinear Guardedness in Concept Erasure was accepted to NeurIPS 2025!\n\n\nAug 2025\n\n\nStarted my internship at Sartorius in Ann Arbor.\n\n\nJun 2025\n\n\nOur paper Homomorphically Encrypted Biometric Template Fusion and Matching was accepted to TBIOM!"
+  },
+  {
+    "objectID": "index.html#selected-publications",
+    "href": "index.html#selected-publications",
+    "title": "Ramin Akbari",
+    "section": "📝 Selected Publications",
+    "text": "📝 Selected Publications\n\n\n\n\n\nObliviator Reveals the Cost of Nonlinear Guardedness in Concept Erasure Ramin Akbari*, Milad Afshari*, Vishnu Boddeti Advances in Neural Information Processing Systems (NeurIPS), Dec 2025\nConcept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries because they do not capture the statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, a method that captures nonlinear statistical dependencies to successfully guard against nonlinear adversaries. By using an iterative approach, Obliviator prevents mode-collapse and preserves as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.\n Blog  arXiv  Code  OpenReview  Poster  Slides"
+  }
+]
