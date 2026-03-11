@@ -17,13 +17,20 @@ I also have background in computational mechanics, specifically working with the
 
 <br>
 
-::: {.d-flex .flex-wrap .column-gap-2 .row-gap-3}
-[<i class="bi bi-linkedin"></i> LinkedIn](https://www.linkedin.com/in/ramin-akbari-a7580025b/){.btn .btn-outline-primary .btn-sm}
+<div style="display: flex; flex-wrap: wrap; margin: -10px;">
+  <a href="https://github.com/ramin-akbari" class="btn btn-outline-primary btn-sm" style="margin: 1px;"><i class="bi bi-github"></i> GitHub</a>
+  <a href="https://scholar.google.com/citations?user=Q2kM_tcAAAAJ&hl=en" class="btn btn-outline-primary btn-sm" style="margin: 1px;"><i class="bi bi-mortarboard"></i> Google Scholar</a>
+  <a href="cv.pdf" class="btn btn-outline-primary btn-sm" style="margin: 1px;"><i class="bi bi-file-earmark-person"></i> CV</a>
+  <a href="https://www.linkedin.com/in/ramin-akbari-a7580025b/" class="btn btn-outline-primary btn-sm" style="margin: 1px;"><i class="bi bi-linkedin"></i> LinkedIn</a>
+  <a href="mailto:akbarigh@msu.edu" class="btn btn-outline-dark btn-sm" style="margin: 1px;"><i class="bi bi-envelope"></i> Email</a>
+</div>
+
+<!-- [<i class="bi bi-linkedin"></i> LinkedIn](https://www.linkedin.com/in/ramin-akbari-a7580025b/){.btn .btn-outline-primary .btn-sm}
 [<i class="bi bi-mortarboard"></i> Google Scholar](https://scholar.google.com/citations?user=Q2kM_tcAAAAJ&hl=en){.btn .btn-outline-primary .btn-sm}
 [<i class="bi bi-file-earmark-person"></i> CV](cv.pdf){.btn .btn-outline-primary .btn-sm}
 [<i class="bi bi-github"></i> GitHub](https://github.com/ramin-akbari){.btn .btn-outline-dark .btn-sm}
-[<i class="bi bi-envelope"></i> Email](mailto:akbarigh@msu.edu){.btn .btn-outline-dark .btn-sm}
-:::
+[<i class="bi bi-envelope"></i> Email](mailto:akbarigh@msu.edu){.btn .btn-outline-dark .btn-sm} -->
+
 
 :::
 
@@ -80,12 +87,14 @@ Our paper *Homomorphically Encrypted Biometric Template Fusion and Matching* was
 Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries because they do not capture the statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, a method that captures nonlinear statistical dependencies to successfully guard against nonlinear adversaries. By using an iterative approach, Obliviator prevents mode-collapse and preserves as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.
 
 
-[<i class="bi bi-file-richtext"></i> Blog](posts/obliviator/index.html){.btn .btn-outline-primary .btn-sm}
-[<i class="bi bi-file-earmark-pdf"></i> arXiv](https://arxiv.org/abs/2603.07529){.btn .btn-outline-primary .btn-sm}
-[<i class="bi bi-github"></i> Code](https://github.com/ramin-akbari/Obliviator){.btn .btn-outline-dark .btn-sm}
-[<i class="bi bi-journal-check"></i> OpenReview](https://openreview.net/forum?id=GcjpjIHDZn){.btn .btn-outline-success .btn-sm}
-[<i class="bi bi-easel"></i> Poster](/posts/obliviator/poster.png){.btn .btn-outline-success .btn-sm}
-[<i class="bi bi-file-slides"></i> Slides](posts/obliviator/nips-slides/index.html){.btn .btn-outline-success .btn-sm}
+<div style="display: flex; flex-wrap: wrap; margin: -5px;">
+  <a href="posts/obliviator/index.html" class="btn btn-outline-primary btn-sm" style="margin: 1px;"><i class="bi bi-file-richtext"></i> Blog</a>
+  <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-primary btn-sm" style="margin: 1px;"><i class="bi bi-file-earmark-pdf"></i> arXiv</a>
+  <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark btn-sm" style="margin: 1px;"><i class="bi bi-github"></i> Code</a>
+  <a href="https://openreview.net/forum?id=GcjpjIHDZn" class="btn btn-outline-success btn-sm" style="margin: 1px;"><i class="bi bi-journal-check"></i> OpenReview</a>
+  <a href="/posts/obliviator/poster.png" class="btn btn-outline-success btn-sm" style="margin: 1px;"><i class="bi bi-easel"></i> Poster</a>
+  <a href="posts/obliviator/nips-slides/index.html" class="btn btn-outline-success btn-sm" style="margin: 1px;"><i class="bi bi-file-slides"></i> Slides</a>
+</div>
 :::
 
 :::
