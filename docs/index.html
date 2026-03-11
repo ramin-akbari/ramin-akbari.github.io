@@ -89,6 +89,18 @@ ul.task-list li input[type="checkbox"] {
     display: block !important; /* Ensures it renders correctly */
   }
 
+  .blog-page .quarto-post .description a.btn {
+  /* 1. Remove the 'faded' 0.6 opacity forced by the blog page */
+  opacity: 1 !important; 
+  
+  /* 2. Remove the blue underline forced on all links in descriptions */
+  text-decoration: none !important;
+  
+  /* 3. Ensure they stay side-by-side cleanly */
+  display: inline-flex !important;
+  margin-top: 5px;
+}
+
   /* Force Subtitle INSIDE THE POST (Both Light & Dark) */
   .quarto-title-block .quarto-title-meta .subtitle,
   header.quarto-title-block .subtitle {
@@ -499,10 +511,10 @@ ul.task-list li input[type="checkbox"] {
 <p>Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries because they do not capture the statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, a method that captures nonlinear statistical dependencies to successfully guard against nonlinear adversaries. By using an iterative approach, Obliviator prevents mode-collapse and preserves as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.</p>
 <p><a href="posts/obliviator/index.html" class="btn btn-outline-primary"><i class="bi bi-file-richtext"></i> Blog</a> <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-primary"><i class="bi bi-file-earmark-pdf"></i> arXiv</a> <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark"><i class="bi bi-github"></i> Code</a> <a href="https://openreview.net/forum?id=GcjpjIHDZn" class="btn btn-outline-success"><i class="bi bi-journal-check"></i> OpenReview</a> <a href="./posts/obliviator/poster.png" class="btn btn-outline-success"><i class="bi bi-easel"></i> Poster</a> <a href="posts/obliviator/nips-slides/index.html" class="btn btn-outline-success"><i class="bi bi-file-slides"></i> Slides</a></p>
 </div>
+</div>
 <hr>
 
 
-</div>
 </section>
 
 </main> <!-- /main -->

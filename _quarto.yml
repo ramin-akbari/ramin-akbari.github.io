@@ -39,6 +39,18 @@ format:
             display: block !important; /* Ensures it renders correctly */
           }
 
+          .blog-page .quarto-post .description a.btn {
+          /* 1. Remove the 'faded' 0.6 opacity forced by the blog page */
+          opacity: 1 !important; 
+          
+          /* 2. Remove the blue underline forced on all links in descriptions */
+          text-decoration: none !important;
+          
+          /* 3. Ensure they stay side-by-side cleanly */
+          display: inline-flex !important;
+          margin-top: 5px;
+        }
+
           /* Force Subtitle INSIDE THE POST (Both Light & Dark) */
           .quarto-title-block .quarto-title-meta .subtitle,
           header.quarto-title-block .subtitle {
