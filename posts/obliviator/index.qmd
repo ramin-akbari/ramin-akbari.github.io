@@ -7,10 +7,12 @@ categories: [Representation Learning, Statistical Independence, Kernel Methods]
 image: "teaser.png"
 description: |
  We present Obliviator, a method designed to capture and remove specific concept dependencies within the learned representations of pre-trained language models. Concept Erasure presents two central challenges: first, we need to target all modes of dependency, whether linear or nonlinear, and second, the requirement to leave unrelated encoded information untouched. We elaborate on how Obliviator successfully navigates this balance to achieve a robust utility-erasure trade-off. <br><br>
+  <div class="button-container">
   <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-earmark-pdf"></i> arXiv</a>
   <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark btn-sm"><i class="bi bi-github"></i> Code</a>
   <a href="nips-slides/index.html" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-slides"></i> Slides</a>
   <a href="/posts/obliviator/poster.png" class="btn btn-outline-dark btn-sm"><i class="bi bi-easel"></i> Poster</a>
+  </div>
 
 ---
 

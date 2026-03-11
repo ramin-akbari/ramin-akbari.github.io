@@ -20,6 +20,7 @@ format:
     default-style: dark
     mainfont: "Merriweather"
     fontsize: 1.0em
+    css: styles.css
     include-in-header:
       text: |
         <link rel="preconnect" href="https://fonts.googleapis.com">
