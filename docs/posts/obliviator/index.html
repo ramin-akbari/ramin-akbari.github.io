@@ -45,9 +45,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ebd168179d3027ea6b8205eafc4fdaa6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-78a6662116736de4f220ce530389e254.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-ebd168179d3027ea6b8205eafc4fdaa6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-ed27be7785ba92535bd8daa77afc51db.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -92,17 +92,10 @@ ul.task-list li input[type="checkbox"] {
     display: block !important; /* Ensures it renders correctly */
   }
 
-  .blog-page .quarto-post .description a.btn {
-  /* 1. Remove the 'faded' 0.6 opacity forced by the blog page */
-  opacity: 1 !important; 
-  
-  /* 2. Remove the blue underline forced on all links in descriptions */
-  text-decoration: none !important;
-  
-  /* 3. Ensure they stay side-by-side cleanly */
-  display: inline-flex !important;
-  margin-top: 5px;
-}
+  /* Ensure buttons stay clean on hover without underlines */
+  .blog-page .quarto-post .description a.btn:hover {
+    text-decoration: none !important;
+  }
 
   /* Force Subtitle INSIDE THE POST (Both Light & Dark) */
   .quarto-title-block .quarto-title-meta .subtitle,
@@ -111,6 +104,40 @@ ul.task-list li input[type="checkbox"] {
     font-style: italic !important;
     font-weight: 400 !important;
     margin-top: 5px !important;
+  }
+
+  main.content img, 
+  .quarto-post .body img, 
+  .quarto-figure img {
+    border-radius: 25px !important; /* Larger rounding as requested */
+    transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease !important;
+    overflow: hidden !important;
+  }
+
+  /* 2. Dark Mode Specifics (Cyborg) */
+  body.quarto-dark main.content img,
+  body.quarto-dark .quarto-figure img {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Defines edge in darkness */
+    filter: brightness(0.9); /* Dims slightly for eye comfort */
+  }
+
+  body.quarto-dark main.content img:hover,
+  body.quarto-dark .quarto-figure img:hover {
+    filter: brightness(1.05); /* Glows slightly on hover */
+    transform: scale(1.01); 
+  }
+
+  /* 3. Light Mode Specifics (Cosmo) */
+  body.quarto-light main.content img,
+  body.quarto-light .quarto-figure img {
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important; /* Soft depth */
+  }
+
+  body.quarto-light main.content img:hover,
+  body.quarto-light .quarto-figure img:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important; /* Shadow grows on hover */
+    transform: scale(1.01);
   }
 
   .quarto-listing-category .category-count,
@@ -438,7 +465,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-concept-erasure" id="toc-what-is-concept-erasure" class="nav-link active" data-scroll-target="#what-is-concept-erasure">What is Concept Erasure ?</a></li>
+  <li><a href="#concept-erasure-and-its-motivation" id="toc-concept-erasure-and-its-motivation" class="nav-link active" data-scroll-target="#concept-erasure-and-its-motivation">Concept Erasure and its Motivation</a></li>
+  <li><a href="#challenges-in-concept-erasure" id="toc-challenges-in-concept-erasure" class="nav-link" data-scroll-target="#challenges-in-concept-erasure">Challenges in Concept Erasure</a></li>
+  <li><a href="#utility-erasure-trade-off" id="toc-utility-erasure-trade-off" class="nav-link" data-scroll-target="#utility-erasure-trade-off">Utility-Erasure Trade-off</a></li>
   </ul>
 </nav>
     </div>
@@ -488,9 +517,46 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="what-is-concept-erasure" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-concept-erasure">What is Concept Erasure ?</h2>
-<p>Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries since they fail to capture statistical dependencies between unwanted concepts and learned representations. We introduce <strong>Obliviator</strong>, which captures nonlinear statistical dependencies and successfully guards against nonlinear adversaries. We propose an iterative approach to prevent mode-collapse and preserve as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.</p>
+<section id="concept-erasure-and-its-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="concept-erasure-and-its-motivation">Concept Erasure and its Motivation</h2>
+<p>Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. <strong>But why would we need to erase something that has already been learned?</strong></p>
+<p>To answer this, consider a scenario where we want to perform a preliminary analysis of CVs based on information relevant to the applicants’ professions. We scan the CVs using a language model to collect embeddings, then use a machine learning algorithm for our analysis. Now, can we guarantee that our algorithm only uses relevant professions’ information and hasn’t utilized gender information encoded in the embeddings?</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="why_erasure.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>A Scenario For Erasure</figcaption>
+</figure>
+</div>
+</div>
+<p>We should also note that when training large-scale models, we have little control over the specific information they learn. Furthermore, depending on the downstream task, we might want to remove different types of information. Since it is impractical to train a separate foundation model for every possible requirement, concept erasure is a field that studies how to control the information within a model. This control can be applied either during training or afterward. The latter approach is known as post-hoc erasure, and it is what we focus on here.</p>
+</section>
+<section id="challenges-in-concept-erasure" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-in-concept-erasure">Challenges in Concept Erasure</h2>
+<p>There are generally two challenges in concept erasure. First, we need a proxy to quantify how the unwanted concept and the learned representation are tied together. Second, we must delicately untie the unwanted information from the representation so that all unrelated information remains intact after erasure.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="challenges.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Challenges in Concept Erasure</figcaption>
+</figure>
+</div>
+</div>
+<p>This makes the optimization problem for erasure quite difficult. On one hand, we want to remove information; on the other, we want to preserve information. Balancing these two competing objectives is challenging, and it is unlikely that, without a careful optimization setup, we will obtain a satisfactory result from this competition.</p>
+</section>
+<section id="utility-erasure-trade-off" class="level2">
+<h2 class="anchored" data-anchor-id="utility-erasure-trade-off">Utility-Erasure Trade-off</h2>
+<p>To see the challenges behind the optimization of concept erasure, let us examine the performance of current erasure methods. First, note that if a representation does not contain information regarding a specific attribute, such as gender, we should not be able to classify gender from it. Therefore, if a classifier still achieves substantial accuracy for gender after its erasure, it indicates that the erasure is incomplete. This failure can be due to the difficulty of the optimization problem itself or a weak proxy for measuring the dependency between unwanted attributes and the representation.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="trade-off.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Utility-Erasure Trade-off</figcaption>
+</figure>
+</div>
+</div>
+<p>The figure above illustrates gender erasure on the <a href="https://arxiv.org/abs/1901.09451" class="advisor-link">BiasInBios</a> dataset, where we examine profession information during this erasure. We can see that several methods, such as <a href="https://aclanthology.org/2022.tacl-1.67/" class="advisor-link">FaRM</a> and <a href="https://aclanthology.org/2023.eacl-main.118/" class="advisor-link">KSAL</a>, leake significant traces of gender. <a href="https://arxiv.org/abs/2312.00194" class="advisor-link">KRaM</a> and <a href="https://aclanthology.org/2021.emnlp-main.43.pdf" class="advisor-link">AdS</a>, erase information more effectively; however, they still show around 68% accuracy, which is still considerably higher than the 53% accuracy of the random chance (the majority class) for this dataset.</p>
+<p>Intuitively, when we plot utility against the leakage of unwanted information, we expect a trade-off: as erasure progresses, utility accuracy is likely to drop. However, because none of the existing methods achieved full erasure in this example, the true nature of this trade-off remained unknown. Nevertheless, Obliviator finally uncovers it.</p>
 
 
 </section>

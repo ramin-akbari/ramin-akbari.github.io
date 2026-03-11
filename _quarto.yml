@@ -19,7 +19,7 @@ format:
     darkmode: true
     default-style: dark
     mainfont: "Merriweather"
-    fontsize: 1.1em
+    fontsize: 1.0em
     include-in-header:
       text: |
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,17 +39,10 @@ format:
             display: block !important; /* Ensures it renders correctly */
           }
 
-          .blog-page .quarto-post .description a.btn {
-          /* 1. Remove the 'faded' 0.6 opacity forced by the blog page */
-          opacity: 1 !important; 
-          
-          /* 2. Remove the blue underline forced on all links in descriptions */
-          text-decoration: none !important;
-          
-          /* 3. Ensure they stay side-by-side cleanly */
-          display: inline-flex !important;
-          margin-top: 5px;
-        }
+          /* Ensure buttons stay clean on hover without underlines */
+          .blog-page .quarto-post .description a.btn:hover {
+            text-decoration: none !important;
+          }
 
           /* Force Subtitle INSIDE THE POST (Both Light & Dark) */
           .quarto-title-block .quarto-title-meta .subtitle,
@@ -58,6 +51,40 @@ format:
             font-style: italic !important;
             font-weight: 400 !important;
             margin-top: 5px !important;
+          }
+
+          main.content img, 
+          .quarto-post .body img, 
+          .quarto-figure img {
+            border-radius: 25px !important; /* Larger rounding as requested */
+            transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease !important;
+            overflow: hidden !important;
+          }
+
+          /* 2. Dark Mode Specifics (Cyborg) */
+          body.quarto-dark main.content img,
+          body.quarto-dark .quarto-figure img {
+            border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Defines edge in darkness */
+            filter: brightness(0.9); /* Dims slightly for eye comfort */
+          }
+
+          body.quarto-dark main.content img:hover,
+          body.quarto-dark .quarto-figure img:hover {
+            filter: brightness(1.05); /* Glows slightly on hover */
+            transform: scale(1.01); 
+          }
+
+          /* 3. Light Mode Specifics (Cosmo) */
+          body.quarto-light main.content img,
+          body.quarto-light .quarto-figure img {
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important; /* Soft depth */
+          }
+
+          body.quarto-light main.content img:hover,
+          body.quarto-light .quarto-figure img:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important; /* Shadow grows on hover */
+            transform: scale(1.01);
           }
 
           .quarto-listing-category .category-count,

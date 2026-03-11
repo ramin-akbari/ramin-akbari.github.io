@@ -42,9 +42,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ebd168179d3027ea6b8205eafc4fdaa6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-78a6662116736de4f220ce530389e254.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-ebd168179d3027ea6b8205eafc4fdaa6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ed27be7785ba92535bd8daa77afc51db.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -89,17 +89,10 @@ ul.task-list li input[type="checkbox"] {
     display: block !important; /* Ensures it renders correctly */
   }
 
-  .blog-page .quarto-post .description a.btn {
-  /* 1. Remove the 'faded' 0.6 opacity forced by the blog page */
-  opacity: 1 !important; 
-  
-  /* 2. Remove the blue underline forced on all links in descriptions */
-  text-decoration: none !important;
-  
-  /* 3. Ensure they stay side-by-side cleanly */
-  display: inline-flex !important;
-  margin-top: 5px;
-}
+  /* Ensure buttons stay clean on hover without underlines */
+  .blog-page .quarto-post .description a.btn:hover {
+    text-decoration: none !important;
+  }
 
   /* Force Subtitle INSIDE THE POST (Both Light & Dark) */
   .quarto-title-block .quarto-title-meta .subtitle,
@@ -108,6 +101,40 @@ ul.task-list li input[type="checkbox"] {
     font-style: italic !important;
     font-weight: 400 !important;
     margin-top: 5px !important;
+  }
+
+  main.content img, 
+  .quarto-post .body img, 
+  .quarto-figure img {
+    border-radius: 25px !important; /* Larger rounding as requested */
+    transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease !important;
+    overflow: hidden !important;
+  }
+
+  /* 2. Dark Mode Specifics (Cyborg) */
+  body.quarto-dark main.content img,
+  body.quarto-dark .quarto-figure img {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Defines edge in darkness */
+    filter: brightness(0.9); /* Dims slightly for eye comfort */
+  }
+
+  body.quarto-dark main.content img:hover,
+  body.quarto-dark .quarto-figure img:hover {
+    filter: brightness(1.05); /* Glows slightly on hover */
+    transform: scale(1.01); 
+  }
+
+  /* 3. Light Mode Specifics (Cosmo) */
+  body.quarto-light main.content img,
+  body.quarto-light .quarto-figure img {
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important; /* Soft depth */
+  }
+
+  body.quarto-light main.content img:hover,
+  body.quarto-light .quarto-figure img:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important; /* Shadow grows on hover */
+    transform: scale(1.01);
   }
 
   .quarto-listing-category .category-count,
@@ -464,7 +491,9 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>B.Sc. in Civil Engineering</strong> | University of Tehran</li>
 </ul>
 <p><br></p>
-<p><a href="https://github.com/ramin-akbari" class="btn btn-outline-primary"><i class="bi bi-github"></i> GitHub</a> <a href="https://scholar.google.com/citations?user=Q2kM_tcAAAAJ&amp;hl=en" class="btn btn-outline-primary"><i class="bi bi-mortarboard"></i> Google Scholar</a> <a href="cv.pdf" class="btn btn-outline-primary"><i class="bi bi-file-earmark-person"></i> CV</a> <a href="https://www.linkedin.com/in/ramin-akbari-a7580025b/" class="btn btn-outline-primary"><i class="bi bi-linkedin"></i> LinkedIn</a> <a href="mailto:akbarigh@msu.edu" class="btn btn-outline-dark"><i class="bi bi-envelope"></i> Email</a></p>
+<div class="d-flex flex-wrap gap-2">
+<p><a href="https://www.linkedin.com/in/ramin-akbari-a7580025b/" class="btn btn-outline-primary btn-sm"><i class="bi bi-linkedin"></i> LinkedIn</a> <a href="https://scholar.google.com/citations?user=Q2kM_tcAAAAJ&amp;hl=en" class="btn btn-outline-primary btn-sm"><i class="bi bi-mortarboard"></i> Google Scholar</a> <a href="cv.pdf" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-person"></i> CV</a> <a href="https://github.com/ramin-akbari" class="btn btn-outline-dark btn-sm"><i class="bi bi-github"></i> GitHub</a> <a href="mailto:akbarigh@msu.edu" class="btn btn-outline-dark btn-sm"><i class="bi bi-envelope"></i> Email</a></p>
+</div>
 </div>
 <div class="g-col-12 g-col-md-4">
 <p><img src="ramin2.jpg" class="rounded img-fluid" style="width:85.0%"></p>
@@ -509,7 +538,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="g-col-12 g-col-md-8">
 <p><span style="font-size: 1.15em;"><strong>Obliviator Reveals the Cost of Nonlinear Guardedness in Concept Erasure</strong></span><br> <u>Ramin Akbari</u>*, Milad Afshari*, Vishnu Boddeti<br> <em>Advances in Neural Information Processing Systems (NeurIPS), Dec 2025</em></p>
 <p>Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries because they do not capture the statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, a method that captures nonlinear statistical dependencies to successfully guard against nonlinear adversaries. By using an iterative approach, Obliviator prevents mode-collapse and preserves as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.</p>
-<p><a href="posts/obliviator/index.html" class="btn btn-outline-primary"><i class="bi bi-file-richtext"></i> Blog</a> <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-primary"><i class="bi bi-file-earmark-pdf"></i> arXiv</a> <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark"><i class="bi bi-github"></i> Code</a> <a href="https://openreview.net/forum?id=GcjpjIHDZn" class="btn btn-outline-success"><i class="bi bi-journal-check"></i> OpenReview</a> <a href="./posts/obliviator/poster.png" class="btn btn-outline-success"><i class="bi bi-easel"></i> Poster</a> <a href="posts/obliviator/nips-slides/index.html" class="btn btn-outline-success"><i class="bi bi-file-slides"></i> Slides</a></p>
+<p><a href="posts/obliviator/index.html" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-richtext"></i> Blog</a> <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-pdf"></i> arXiv</a> <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark btn-sm"><i class="bi bi-github"></i> Code</a> <a href="https://openreview.net/forum?id=GcjpjIHDZn" class="btn btn-outline-success btn-sm"><i class="bi bi-journal-check"></i> OpenReview</a> <a href="./posts/obliviator/poster.png" class="btn btn-outline-success btn-sm"><i class="bi bi-easel"></i> Poster</a> <a href="posts/obliviator/nips-slides/index.html" class="btn btn-outline-success btn-sm"><i class="bi bi-file-slides"></i> Slides</a></p>
 </div>
 </div>
 <hr>

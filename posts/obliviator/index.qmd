@@ -14,6 +14,36 @@ description: |
 
 ---
 
-## What is Concept Erasure ?
-Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries since they fail to capture statistical dependencies between unwanted concepts and learned representations. 
-We introduce **Obliviator**, which captures nonlinear statistical dependencies and successfully guards against nonlinear adversaries. We propose an iterative approach to prevent mode-collapse and preserve as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.
+## Concept Erasure and its Motivation
+Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. 
+**But why would we need to erase something that has already been learned?**
+
+To answer this, consider a scenario where we want to perform a preliminary analysis of CVs based on information relevant to the applicants' professions. We scan the CVs using a language model to collect embeddings, then use a machine learning algorithm for our analysis. Now, can we guarantee that our algorithm only uses relevant professions' information and hasn't utilized gender information encoded in the embeddings?
+
+::: {style="text-align: center;"}
+![A Scenario For Erasure](why_erasure.png){fig-align="center" width="60%"}
+:::
+
+We should also note that when training large-scale models, we have little control over the specific information they learn. Furthermore, depending on the downstream task, we might want to remove different types of information. Since it is impractical to train a separate foundation model for every possible requirement, concept erasure is a field that studies how to control the information within a model. This control can be applied either during training or afterward. The latter approach is known as post-hoc erasure, and it is what we focus on here.
+
+## Challenges in Concept Erasure
+There are generally two challenges in concept erasure. First, we need a proxy to quantify how the unwanted concept and the learned representation are tied together. Second, we must delicately untie the unwanted information from the representation so that all unrelated information remains intact after erasure.
+
+::: {style="text-align: center;"}
+![Challenges in Concept Erasure](challenges.png){fig-align="center" width="80%"}
+:::
+
+This makes the optimization problem for erasure quite difficult. On one hand, we want to remove information; on the other, we want to preserve information. Balancing these two competing objectives is challenging, and it is unlikely that, without a careful optimization setup, we will obtain a satisfactory result from this competition.
+
+## Utility-Erasure Trade-off
+To see the challenges behind the optimization of concept erasure, let us examine the performance of current erasure methods. First, note that if a representation does not contain information regarding a specific attribute, such as gender, we should not be able to classify gender from it. Therefore, if a classifier still achieves substantial accuracy for gender after its erasure, it indicates that the erasure is incomplete. This failure can be due to the difficulty of the optimization problem itself or a weak proxy for measuring the dependency between unwanted attributes and the representation.
+
+::: {style="text-align: center;"}
+![Utility-Erasure Trade-off](trade-off.png){fig-align="center" width="60%"}
+:::
+
+The figure above illustrates gender erasure on the [BiasInBios](https://arxiv.org/abs/1901.09451){.advisor-link} dataset, where we examine profession information during this erasure. We can see that several methods, such as [FaRM](https://aclanthology.org/2022.tacl-1.67/){.advisor-link} and [KSAL](https://aclanthology.org/2023.eacl-main.118/){.advisor-link}, leake significant traces of gender. [KRaM](https://arxiv.org/abs/2312.00194){.advisor-link} and [AdS](https://aclanthology.org/2021.emnlp-main.43.pdf){.advisor-link}, erase information more effectively; however, they still show around 68% accuracy, which is still considerably higher than the 53% accuracy of the random chance (the majority class) for this dataset.
+
+Intuitively, when we plot utility against the leakage of unwanted information, we expect a trade-off: as erasure progresses, utility accuracy is likely to drop. However, because none of the existing methods achieved full erasure in this example, the true nature of this trade-off remained unknown. Nevertheless, Obliviator finally uncovers it.
+
+

@@ -11,7 +11,7 @@
     "href": "posts/obliviator/index.html",
     "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
     "section": "",
-    "text": "Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries since they fail to capture statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, which captures nonlinear statistical dependencies and successfully guards against nonlinear adversaries. We propose an iterative approach to prevent mode-collapse and preserve as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off."
+    "text": "Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. But why would we need to erase something that has already been learned?\nTo answer this, consider a scenario where we want to perform a preliminary analysis of CVs based on information relevant to the applicants’ professions. We scan the CVs using a language model to collect embeddings, then use a machine learning algorithm for our analysis. Now, can we guarantee that our algorithm only uses relevant professions’ information and hasn’t utilized gender information encoded in the embeddings?\n\n\n\n\nA Scenario For Erasure\n\n\n\nWe should also note that when training large-scale models, we have little control over the specific information they learn. Furthermore, depending on the downstream task, we might want to remove different types of information. Since it is impractical to train a separate foundation model for every possible requirement, concept erasure is a field that studies how to control the information within a model. This control can be applied either during training or afterward. The latter approach is known as post-hoc erasure, and it is what we focus on here."
   },
   {
     "objectID": "posts/obliviator/index.html#what-is-concept-erasure",
@@ -25,7 +25,7 @@
     "href": "index.html",
     "title": "Ramin Akbari",
     "section": "",
-    "text": "I am a Ph.D. student in Computer Science and Engineering at Michigan State University, advised by Dr. Vishnu Boddeti. I work on statistical machine learning with a primary focus on the mathematics of controlling representations. My research aims to develop algorithms that mitigate bias in AI models, improve fairness, protect data privacy, and advance safe and trustworthy AI systems.\nI also have background in computational mechanics, specifically working with the eXtended Finite Element Method (XFEM), computational homogenization and the constitutive modeling of hyper-elastic material.\n\nPh.D. Student in Computer Science | Michigan State University\nM.Sc. in Structural Mechanics | Sharif University of Technology\nB.Sc. in Civil Engineering | University of Tehran\n\n\n GitHub  Google Scholar  CV  LinkedIn  Email"
+    "text": "I am a Ph.D. student in Computer Science and Engineering at Michigan State University, advised by Dr. Vishnu Boddeti. I work on statistical machine learning with a primary focus on the mathematics of controlling representations. My research aims to develop algorithms that mitigate bias in AI models, improve fairness, protect data privacy, and advance safe and trustworthy AI systems.\nI also have background in computational mechanics, specifically working with the eXtended Finite Element Method (XFEM), computational homogenization and the constitutive modeling of hyper-elastic material.\n\nPh.D. Student in Computer Science | Michigan State University\nM.Sc. in Structural Mechanics | Sharif University of Technology\nB.Sc. in Civil Engineering | University of Tehran\n\n\n\n LinkedIn  Google Scholar  CV  GitHub  Email"
   },
   {
     "objectID": "index.html#news",
@@ -40,5 +40,47 @@
     "title": "Ramin Akbari",
     "section": "📝 Selected Publications",
     "text": "📝 Selected Publications\n\n\n\n\n\nObliviator Reveals the Cost of Nonlinear Guardedness in Concept Erasure Ramin Akbari*, Milad Afshari*, Vishnu Boddeti Advances in Neural Information Processing Systems (NeurIPS), Dec 2025\nConcept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries because they do not capture the statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, a method that captures nonlinear statistical dependencies to successfully guard against nonlinear adversaries. By using an iterative approach, Obliviator prevents mode-collapse and preserves as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.\n Blog  arXiv  Code  OpenReview  Poster  Slides"
+  },
+  {
+    "objectID": "posts/obliviator/index.html#what-is-concept-erasure-and-why-it-might-be-needed",
+    "href": "posts/obliviator/index.html#what-is-concept-erasure-and-why-it-might-be-needed",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "",
+    "text": "Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. But why would we need to erase something that has already been learned?\nTo answer this, consider a scenario where we want to perform a preliminary analysis of CVs based on information relevant to the applicants’ professions. We scan the CVs using a language model to collect embeddings, then use a machine learning algorithm for our analysis. Now, can we guarantee that our algorithm only uses relevant professions’ information and hasn’t utilized gender information encoded in the embeddings?\n\n\n\n\nA Scenario For Erasure"
+  },
+  {
+    "objectID": "posts/obliviator/index.html#defining-concept-erasure-and-its-motivation",
+    "href": "posts/obliviator/index.html#defining-concept-erasure-and-its-motivation",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "",
+    "text": "Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. But why would we need to erase something that has already been learned?\nTo answer this, consider a scenario where we want to perform a preliminary analysis of CVs based on information relevant to the applicants’ professions. We scan the CVs using a language model to collect embeddings, then use a machine learning algorithm for our analysis. Now, can we guarantee that our algorithm only uses relevant professions’ information and hasn’t utilized gender information encoded in the embeddings?\n\n\n\n\nA Scenario For Erasure"
+  },
+  {
+    "objectID": "posts/obliviator/index.html#concept-erasure-and-its-motivation",
+    "href": "posts/obliviator/index.html#concept-erasure-and-its-motivation",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "",
+    "text": "Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. But why would we need to erase something that has already been learned?\nTo answer this, consider a scenario where we want to perform a preliminary analysis of CVs based on information relevant to the applicants’ professions. We scan the CVs using a language model to collect embeddings, then use a machine learning algorithm for our analysis. Now, can we guarantee that our algorithm only uses relevant professions’ information and hasn’t utilized gender information encoded in the embeddings?\n\n\n\n\nA Scenario For Erasure\n\n\n\nWe should also note that when training large-scale models, we have little control over the specific information they learn. Furthermore, depending on the downstream task, we might want to remove different types of information. Since it is impractical to train a separate foundation model for every possible requirement, concept erasure is a field that studies how to control the information within a model. This control can be applied either during training or afterward. The latter approach is known as post-hoc erasure, and it is what we focus on here."
+  },
+  {
+    "objectID": "posts/obliviator/index.html#challenges-in-concept-erasure",
+    "href": "posts/obliviator/index.html#challenges-in-concept-erasure",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "Challenges in Concept Erasure",
+    "text": "Challenges in Concept Erasure\nThere are generally two challenges in concept erasure. First, we need a proxy to quantify how the unwanted concept and the learned representation are tied together. Second, we must delicately untie the unwanted information from the representation so that all unrelated information remains intact after erasure.\n\n\n\n\nChallenges in Concept Erasure\n\n\n\nThis makes the optimization problem for erasure quite difficult. On one hand, we want to remove information; on the other, we want to preserve information. Balancing these two competing objectives is challenging, and it is unlikely that, without a careful optimization setup, we will obtain a satisfactory result from this competition."
+  },
+  {
+    "objectID": "posts/obliviator/index.html#challenges-in-concept-erasure-1",
+    "href": "posts/obliviator/index.html#challenges-in-concept-erasure-1",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "Challenges in Concept Erasure",
+    "text": "Challenges in Concept Erasure"
+  },
+  {
+    "objectID": "posts/obliviator/index.html#utility-erasure-trade-off",
+    "href": "posts/obliviator/index.html#utility-erasure-trade-off",
+    "title": "Obliviator Reveals the Cost of Nonlinear Guardedness",
+    "section": "Utility-Erasure Trade-off",
+    "text": "Utility-Erasure Trade-off\nTo see the challenges behind the optimization of concept erasure, let us examine the performance of current erasure methods. First, note that if a representation does not contain information regarding a specific attribute, such as gender, we should not be able to classify gender from it. Therefore, if a classifier still achieves substantial accuracy for gender after its erasure, it indicates that the erasure is incomplete. This failure can be due to the difficulty of the optimization problem itself or a weak proxy for measuring the dependency between unwanted attributes and the representation.\n\n\n\n\nUtility-Erasure Trade-off\n\n\n\nThe figure above illustrates gender erasure on the BiasInBios dataset, where we examine profession information during this erasure. We can see that several methods, such as FaRM and KSAL, leake significant traces of gender. KRaM and AdS, erase information more effectively; however, they still show around 68% accuracy, which is still considerably higher than the 53% accuracy of the random chance (the majority class) for this dataset.\nIntuitively, when we plot utility against the leakage of unwanted information, we expect a trade-off: as erasure progresses, utility accuracy is likely to drop. However, because none of the existing methods achieved full erasure in this example, the true nature of this trade-off remained unknown. Nevertheless, Obliviator finally uncovers it."
   }
 ]
