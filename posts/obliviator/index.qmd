@@ -90,7 +90,7 @@ By selecting these function spaces carefully, this formulation becomes computati
 
 $$\mathrm{Cov}[f(X),g(Y)] = \langle g , \mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX} f \rangle_{\mathcal{G}} $$
 
-While this may sound just a change in notation, it represents a profound shift: we can now analyze independence entirely through the cross-covariance operator $\mathbb{C}\mathrm{ov}_{YX}$. Think of this operator as an infinite-dimensional matrix that can be approximated arbitrarily well by a finite-rank matrix. If this operator is the null operator (a matrix of all zeros), we can conclude that $X$ and $Y$ are independent. If it is non-null, there exist functions $f$ and $g$ that capture a dependence. Therefore, we can take the norm of this operator as a metric for dependence. The Hilbert-Schmidt norm, the infinite-dimensional generalization of the Frobenius norm, provides such metric, yielding the Hilbert-Schmidt Independence Criterion ([HSIC](https://proceedings.neurips.cc/paper_files/paper/2007/file/d5cfead94f5350c12c322b5b664544c1-Paper.pdf){.advisor-link}):
+While this may sound just a change in notation, it represents a profound shift: we can now analyze independence entirely through the cross-covariance operator $\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}$. Think of this operator as an infinite-dimensional matrix that can be approximated arbitrarily well by a finite-rank matrix. If this operator is the null operator (a matrix of all zeros), we can conclude that $X$ and $Y$ are independent. If it is non-null, there exist functions $f$ and $g$ that capture a dependence. Therefore, we can take the norm of this operator as a metric for dependence. The Hilbert-Schmidt norm, the infinite-dimensional generalization of the Frobenius norm, provides such metric, yielding the Hilbert-Schmidt Independence Criterion ([HSIC](https://proceedings.neurips.cc/paper_files/paper/2007/file/d5cfead94f5350c12c322b5b664544c1-Paper.pdf){.advisor-link}):
 
 $$ \mathrm{HSIC}(\mathcal{F},\mathcal{G},P(X,Y)) =  \|\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}\|_{\scriptscriptstyle{HS}}^2 = 0 \iff X \perp\!\!\perp Y$$
 
@@ -107,3 +107,33 @@ As discussed above, we can search for the functions $f$ and $g$ that expose the 
 $$\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] \quad \text{s.t.} \quad \|f\|_{\scriptscriptstyle\mathcal{F}}=\|g\|_{\scriptscriptstyle\mathcal{G}} = 1$$
 
 The norm constraint ensures that this optimization remains bounded when $X$ and $Y$ are dependent. Intuitively, this optimization states that, given a constrained amount of smoothness (function norm in RKHS indicates smoothness), we search for the optimal pair of functions that makes the dependency between $X$ and $Y$ as linear as possible. This conceptually mirrors what typically happens in neural networks: we continuously apply non-linear transformations to the data until the very last layer, where a simple linear projection is finally used to make the prediction! The figure above demonstrates what these optimal functions look like for this specific example, and how the correlation increases significantly once the transformations are applied.
+
+
+## Why Functional Approach ?
+Thus far, our evaluation of statistical dependency has assumed that the underlying data distribution is known. In practice, however, this is rarely the case; instead, we are typically provided with embeddings, their corresponding unwanted concept labels, and occasionally the utility information we seek to preserve. Directly approximating probability distributions for high-dimensional data is notoriously difficult and requires massive sample sizes. 
+
+Instead, the functional approach avoids this by relying on expectations, which can be empirically estimated from samples without explicitly modeling the distribution. With a finite number of samples, we are essentially approximating the infinite-dimensional cross-covariance operator with a finite-rank matrix, an approximation that becomes increasingly accurate as the sample size grows. This process is analogous to estimating a standard covariance matrix from empirical data. A critical factor in this finite-sample setting is the smoothness of the functions $f$ and $g$ used for linearization. In an RKHS, the norm constraint and the choice of kernel serve as regularizers that control this smoothness. Consequently, a poor choice of kernel can lead to an overestimation or underestimation of the true underlying dependency.
+
+## Erasure via Functional Approach
+Because HSIC provides a rigorous proxy for capturing all modes of dependency between an unwanted concept and a learned representation, we can now formally define the erasure problem. Suppose $S$ is the unwanted concept, and $Y$ represents the downstream utility. Concept erasure can be framed as an optimization problem where we minimize the statistical dependency between the erased representation and $S$, while maximizing its dependency on $Y$, using HSIC as our proxy to measure this dependence.
+
+However, it is important to clarify that "maximizing dependency" does not imply introducing a new source of dependence. Recall that the fundamental dependency between random variables is dictated by their underlying random processes, which we cannot alter. Instead, maximizing this dependence means transforming the representation space such that the existing shared information becomes easily detectable. In essence, by requiring this shared information to remain observable through the cross-covariance operator (between $Y$ and the erased representation), we explicitly signal the optimization process to leave the corresponding structure in the data intact as it performs erasure.
+
+Let the erased representation be $Z_\theta = \varepsilon(X;\theta)$, where $\varepsilon$ is our guarding function parameterized by $\theta$ and $X$ is the original learned representation. The optimization objective then reads:
+
+$$\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Erasure}} - \overbrace{\left(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\right)}^{\text{Preserves Information}}$$
+
+As discussed above, maximizing $\mathrm{HSIC}(Z_\theta,X)$ follows a similar principle to $\mathrm{HSIC}(Z_\theta,Y)$. By requiring the erased representation to maintain a degree of dependency on the original representation, we signal the optimization to avoid collapsing the entire feature space during the erasure.
+
+
+## Suboptimality of Vanilla Optimization Setup
+While the above optimization problem employs a mathematically sound proxy for capturing dependencies, it remains susceptible to the challenge of competing objectives. In practice, we found that performing erasure through this "vanilla" single-stage setup, without specific interventions, leads to suboptimal results. Furthermore, this single-stage optimization exhibits oscillatory behavior and is highly sensitive to initialization. Varying the encoder's starting point results in inconsistent final point in the utility-erasure trade-off space, as illustrated in the figure below:
+
+::: {style="text-align: center;"}
+![Single-Stage Erasure Vs Obliviator](single_step.png){fig-align="center" width="60%"}
+:::
+
+The iterative approach shown in the curve above demonstrates the performance of Obliviator, which we will discuss in the next section.
+
+
+## Introducing Obliviator
