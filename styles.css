@@ -1,12 +1,204 @@
-/* css styles */
-/* This applies to all buttons inside a container with the class .button-container */
+/* --- 1. BUTTON STYLING (From your existing styles.css) --- */
 .button-container {
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+body {
+  font-weight: 400; /* 400 is standard. Change to 300 for thinner or 500 for thicker */
 }
 
 .button-container .btn {
-border-radius: 4px !important; 
-margin-bottom: 8px;           
-margin-right: 2px; 
+  border-radius: 4px !important; 
+  margin-bottom: 8px;           
+  margin-right: 2px; 
+}
+
+/* --- 2. LAYOUT ALIGNMENT (Shared by Blog List and Individual Posts) --- */
+/* Notice we target BOTH .blog-page and .post-page here */
+
+.blog-page #quarto-content.quarto-container,
+.post-page #quarto-content.quarto-container {
+  max-width: 100% !important; 
+  margin: 5px !important;
+  padding: 5px !important;
+  display: flex !important;
+  margin-right: 55px !important;
+}
+
+.blog-page main.content,
+.post-page main.content {
+  margin-left: 4vw !important;  
+  max-width: 70% !important;    
+  padding-left: 10px !important;
+}
+
+.blog-page #quarto-margin-sidebar,
+.post-page #quarto-margin-sidebar {
+  position: fixed !important; 
+  right: 3vw !important;       
+  top: 100px !important; 
+  width: 250px !important;
+  font-size: 0.7em !important; 
+}
+
+
+h1, .title {
+  font-size: 2rem !important; /* Main Page Titles */
+  font-weight: 700 !important;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.35rem !important; /* Section Headers like "News" or "Publications" */
+  font-weight: 600 !important;
+  margin-top: 2rem;
+}
+
+h3 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+}
+
+.post-page .quarto-title-block .title {
+  font-size: 1.6rem !important;  /* Default is usually around 3rem. Decrease if still too big */
+  line-height: 1.3 !important;   /* Keeps multi-line titles readable */
+}
+
+/* --- 3. BLOG LISTING SPECIFICS (Only for the main blog page) --- */
+.blog-page .listing-subtitle,
+.blog-page .quarto-post .body .listing-subtitle {
+  font-size: 0.8em !important;
+  font-style: italic !important;
+  margin-top: 0.5px !important;
+  margin-bottom: 10px !important;
+  display: block !important;
+}
+
+.blog-page .quarto-post .description a.btn:hover {
+  text-decoration: none !important;
+}
+
+.blog-page .quarto-post .thumbnail {
+  flex-basis: 30% !important;
+  max-width: 30% !important;
+  padding-right: 5px;
+}
+
+.blog-page .quarto-post .body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-basis: 75% !important;
+}
+
+.blog-page .btn-sm {
+  margin-right: 5px !important;
+  margin-bottom: 5px !important;
+  font-size: 0.75rem !important; 
+}
+
+/* --- 4. GLOBAL STYLING (Applies everywhere) --- */
+.quarto-title-block .quarto-title-meta .subtitle,
+header.quarto-title-block .subtitle {
+  font-size: 0.9em !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  margin-top: 5px !important;
+}
+
+main.content img, 
+.quarto-post .body img, 
+.quarto-figure img {
+  border-radius: 25px !important;
+  transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease !important;
+  overflow: hidden !important;
+}
+
+body.quarto-dark main.content img,
+body.quarto-dark .quarto-figure img {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important; 
+  filter: brightness(0.9); 
+}
+
+body.quarto-dark main.content img:hover,
+body.quarto-dark .quarto-figure img:hover {
+  filter: brightness(1.05); 
+  transform: scale(1.01); 
+}
+
+body.quarto-light main.content img,
+body.quarto-light .quarto-figure img {
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important; 
+}
+
+body.quarto-light main.content img:hover,
+body.quarto-light .quarto-figure img:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important; 
+  transform: scale(1.01);
+}
+
+.quarto-listing-category .category-count,
+.quarto-listing-category-count,
+.quarto-category-count,
+.category-count {
+  display: none !important;
+}
+
+.listing-categories .listing-category,
+.quarto-post .listing-categories .listing-category {
+  font-size: 0.75em !important;
+  font-weight: 700 !important;
+  font-style: italic !important;
+  padding: 5px 10px !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  opacity: 1 !important; 
+}
+
+body.quarto-light .advisor-link {
+  color: #0056b3 !important;      
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+body.quarto-light .advisor-link:hover {
+  text-decoration: underline !important;
+  color: #004494 !important;      
+}
+
+body.quarto-dark .advisor-link {
+  color: #3498db !important;      
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+body.quarto-dark .advisor-link:hover {
+  text-decoration: underline !important;
+  color: #5dade2 !important;      
+}
+
+.listing-title {
+  font-size: 1.15em !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.5rem;
+}
+
+.quarto-categories .quarto-category, 
+.quarto-title-meta .quarto-category,
+.quarto-title-meta-contents .quarto-category {
+  font-size: 0.75em !important;
+  font-style: italic !important;
+  font-weight: 800 !important;
+  padding: 5px 10px !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
+  opacity: 1 !important; 
+  color: inherit !important;
+}
+
+.quarto-post .thumbnail img {
+  width: 100% !important;
+  height: auto !important;
 }

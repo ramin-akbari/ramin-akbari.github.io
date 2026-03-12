@@ -8,9 +8,9 @@
 
 <meta name="author" content="Ramin Akbari">
 <meta name="dcterms.date" content="2026-03-10">
-<meta name="description" content="We present Obliviator, a method designed to capture and remove specific concept dependencies within the learned representations of pre-trained language models. Concept Erasure presents two central challenges: first, we need to target all modes of dependency, whether linear or nonlinear, and second, the requirement to leave unrelated encoded information untouched. We elaborate on how Obliviator successfully navigates this balance to achieve a robust utility-erasure trade-off.   arXiv  Code  Slides  Poster">
+<meta name="description" content="This post discusses Obliviator, a method for capturing and removing specific concept dependencies within the learned representations of pre-trained language models. Concept erasure presents two central challenges: first, the need to target all types of dependencies for complete erasure; and second, the requirement to leave unrelated information untouched. We elaborate on how Obliviator navigates this balance to achieve a strong benchamrk in utility-erasure trade-off.  arXiv  Code  Slides  Poster">
 
-<title>Obliviator Reveals the Cost of Nonlinear Guardedness – Ramin Akbari</title>
+<title>Deep Dive into Obliviator: Nonlinear Guardedness in Concept Erasure – Ramin Akbari</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -45,9 +45,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-ed27be7785ba92535bd8daa77afc51db.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6a86a78734811510b7e3c4ad5777225b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-f6dd98ab9cf7967d067338a49a1b7504.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-6a86a78734811510b7e3c4ad5777225b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,196 +77,42 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&amp;family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&amp;display=swap" rel="stylesheet">
-<style>
-  /* --- BLOG-ONLY STYLING --- */
-  /* These rules ONLY apply when 'body-classes: blog-page' is in the .qmd file */
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&amp;family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&amp;display=swap" rel="stylesheet">
 
-  /* 1. Targets 'NeurIPS 2025' on the BLOG LISTING page */
-  .blog-page .listing-subtitle,
-  .blog-page .quarto-post .body .listing-subtitle {
-    font-size: 0.85em !important;
-    font-style: italic !important;
-    margin-top: -5px !important;
-    margin-bottom: 10px !important;
-    display: block !important; /* Ensures it renders correctly */
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
   }
-
-  /* Ensure buttons stay clean on hover without underlines */
-  .blog-page .quarto-post .description a.btn:hover {
-    text-decoration: none !important;
-  }
-
-  /* Force Subtitle INSIDE THE POST (Both Light & Dark) */
-  .quarto-title-block .quarto-title-meta .subtitle,
-  header.quarto-title-block .subtitle {
-    font-size: 0.9em !important;
-    font-style: italic !important;
-    font-weight: 400 !important;
-    margin-top: 5px !important;
-  }
-
-  main.content img, 
-  .quarto-post .body img, 
-  .quarto-figure img {
-    border-radius: 25px !important; /* Larger rounding as requested */
-    transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease !important;
-    overflow: hidden !important;
-  }
-
-  /* 2. Dark Mode Specifics (Cyborg) */
-  body.quarto-dark main.content img,
-  body.quarto-dark .quarto-figure img {
-    border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Defines edge in darkness */
-    filter: brightness(0.9); /* Dims slightly for eye comfort */
-  }
-
-  body.quarto-dark main.content img:hover,
-  body.quarto-dark .quarto-figure img:hover {
-    filter: brightness(1.05); /* Glows slightly on hover */
-    transform: scale(1.01); 
-  }
-
-  /* 3. Light Mode Specifics (Cosmo) */
-  body.quarto-light main.content img,
-  body.quarto-light .quarto-figure img {
-    border: 1px solid rgba(0, 0, 0, 0.05) !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important; /* Soft depth */
-  }
-
-  body.quarto-light main.content img:hover,
-  body.quarto-light .quarto-figure img:hover {
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important; /* Shadow grows on hover */
-    transform: scale(1.01);
-  }
-
-  .quarto-listing-category .category-count,
-  .quarto-listing-category-count,
-  .quarto-category-count,
-  .category-count {
-    display: none !important;
-  }
-
-  /* 2. Make the category keywords under the title smaller */
-  .listing-categories .listing-category,
-  .quarto-post .listing-categories .listing-category {
-    font-size: 0.75em !important;
-    font-weight: 700 !important;
-    font-style: italic !important;
-    padding: 5px 10px !important;
-    line-height: 1 !important;
-    text-transform: none !important;
-    opacity: 1 !important; 
-  }
-
-  /* 1. Moves the categories to the absolute right edge of the screen */
-  /* 1. Stretch the parent container to the absolute edges of your screen */
-  .blog-page #quarto-content.quarto-container {
-    max-width: 100% !important; 
-    margin: 5px !important;
-    padding: 5px !important;
-    display: flex !important; /* This allows side-by-side positioning */
-    margin-right: 55px !important;
-  }
-
-  /* 2. Flush the blog content to the left edge */
-  .blog-page main.content {
-    margin-left: 4vw !important;  /* Give it a tiny 2% breathing room from the far left */
-    max-width: 70% !important;    /* Control how wide the text spans */
-    padding-left: 10px !important;
-  }
-
-  /* 3. Lock categories to the far right edge */
-  .blog-page #quarto-margin-sidebar {
-    position: fixed !important; 
-    right: 3vw !important;       /* 2% distance from the absolute right edge */
-    top: 100px !important; 
-    width: 250px !important;
-    font-size: 0.7em !important; /* Forced override for small text */
-  }
-
-
-  /* 3. Splits the blog post into 30% Image and 70% Text */
-  .blog-page .quarto-post .thumbnail {
-    flex-basis: 30% !important;
-    max-width: 30% !important;
-    padding-right: 5px;
-  }
-  
-  .blog-page .quarto-post .body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-basis: 75% !important;
-  }
-
-  .blog-page .btn-sm {
-    margin-right: 5px !important;
-    margin-bottom: 5px !important;
-    font-size: 0.75rem !important; /* Makes sure icons/text stay proportional */
-  }
-
-  /* --- GLOBAL STYLING --- */
-  /* These rules apply to EVERY page (Home and Blog) */
-
-  /* 1. LIGHT THEME (Normal & Hover) */
-  body.quarto-light .advisor-link {
-    color: #0056b3 !important;      /* Deep blue */
-    text-decoration: none !important;
-    border-bottom: none !important;
-  }
-  body.quarto-light .advisor-link:hover {
-    text-decoration: underline !important;
-    color: #004494 !important;      /* Slightly darker on hover */
-  }
-
-  /* 2. DARK THEME (Normal & Hover) */
-  body.quarto-dark .advisor-link {
-    color: #3498db !important;      /* Bright blue */
-    text-decoration: none !important;
-    border-bottom: none !important;
-  }
-  body.quarto-dark .advisor-link:hover {
-    text-decoration: underline !important;
-    color: #5dade2 !important;      /* Slightly lighter on hover */
-  }
-
-  /* Controls the appearance of post titles in lists */
-  .listing-title {
-    font-size: 1.2em !important;
-    font-weight: 600 !important;
-    margin-bottom: 0.5rem;
-  }
-
-  .quarto-categories .quarto-category, 
-  .quarto-title-meta .quarto-category,
-  .quarto-title-meta-contents .quarto-category {
-    font-size: 0.75em !important;
-    font-style: italic !important;
-    font-weight: 800 !important;
-    padding: 5px 10px !important;
-    line-height: 1 !important;
-    text-transform: none !important;
-    border-radius: 4px !important;
-    display: inline-block !important;
-    opacity: 1 !important; 
-    color: inherit !important;
-  }
-
-  
-
-  /* Ensures images in lists fill their containers properly */
-  .quarto-post .thumbnail img {
-    width: 100% !important;
-    height: auto !important;
-  }
-</style>
-
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed post-page quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -469,6 +315,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#concept-erasure-and-its-motivation" id="toc-concept-erasure-and-its-motivation" class="nav-link active" data-scroll-target="#concept-erasure-and-its-motivation">Concept Erasure and its Motivation</a></li>
   <li><a href="#challenges-in-concept-erasure" id="toc-challenges-in-concept-erasure" class="nav-link" data-scroll-target="#challenges-in-concept-erasure">Challenges in Concept Erasure</a></li>
   <li><a href="#utility-erasure-trade-off" id="toc-utility-erasure-trade-off" class="nav-link" data-scroll-target="#utility-erasure-trade-off">Utility-Erasure Trade-off</a></li>
+  <li><a href="#nonlinear-guardedness" id="toc-nonlinear-guardedness" class="nav-link" data-scroll-target="#nonlinear-guardedness">Nonlinear Guardedness</a></li>
+  <li><a href="#erasure-means-statistical-independence" id="toc-erasure-means-statistical-independence" class="nav-link" data-scroll-target="#erasure-means-statistical-independence">Erasure Means Statistical Independence</a></li>
+  <li><a href="#the-cost-of-independence" id="toc-the-cost-of-independence" class="nav-link" data-scroll-target="#the-cost-of-independence">The Cost of Independence</a></li>
+  <li><a href="#a-functional-perspective-on-statistical-dependence" id="toc-a-functional-perspective-on-statistical-dependence" class="nav-link" data-scroll-target="#a-functional-perspective-on-statistical-dependence">A Functional Perspective on Statistical Dependence</a></li>
+  <li><a href="#functional-approach-in-action" id="toc-functional-approach-in-action" class="nav-link" data-scroll-target="#functional-approach-in-action">Functional Approach In Action</a></li>
   </ul>
 </nav>
     </div>
@@ -478,7 +329,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Obliviator Reveals the Cost of Nonlinear Guardedness</h1>
+<h1 class="title">Deep Dive into Obliviator: Nonlinear Guardedness in Concept Erasure</h1>
 <p class="subtitle lead">NeurIPS 2025</p>
   <div class="quarto-categories">
     <div class="quarto-category">Representation Learning</div>
@@ -489,9 +340,9 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    We present Obliviator, a method designed to capture and remove specific concept dependencies within the learned representations of pre-trained language models. Concept Erasure presents two central challenges: first, we need to target all modes of dependency, whether linear or nonlinear, and second, the requirement to leave unrelated encoded information untouched. We elaborate on how Obliviator successfully navigates this balance to achieve a robust utility-erasure trade-off. <br><br>
+    This post discusses <strong>Obliviator</strong>, a method for capturing and removing specific concept dependencies within the learned representations of pre-trained language models. Concept erasure presents two central challenges: first, the need to target all types of dependencies for complete erasure; and second, the requirement to leave unrelated information untouched. We elaborate on how Obliviator navigates this balance to achieve a strong benchamrk in utility-erasure trade-off.<br><br>
     <div class="button-container">
-    <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-earmark-pdf"></i> arXiv</a> <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark btn-sm"><i class="bi bi-github"></i> Code</a> <a href="nips-slides/index.html" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-slides"></i> Slides</a> <a href="../../posts/obliviator/poster.png" class="btn btn-outline-dark btn-sm"><i class="bi bi-easel"></i> Poster</a>
+    <p><a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-earmark-pdf"></i> arXiv</a> <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark btn-sm"><i class="bi bi-github"></i> Code</a> <a href="nips-slides/index.html" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-slides"></i> Slides</a> <a href="../../posts/obliviator/poster.png" class="btn btn-outline-dark btn-sm"><i class="bi bi-easel"></i> Poster</a></p>
     </div>
   </div>
 </div>
@@ -524,16 +375,16 @@ ul.task-list li input[type="checkbox"] {
 <section id="concept-erasure-and-its-motivation" class="level2">
 <h2 class="anchored" data-anchor-id="concept-erasure-and-its-motivation">Concept Erasure and its Motivation</h2>
 <p>Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. <strong>But why would we need to erase something that has already been learned?</strong></p>
-<p>To answer this, consider a scenario where we want to perform a preliminary analysis of CVs based on information relevant to the applicants’ professions. We scan the CVs using a language model to collect embeddings, then use a machine learning algorithm for our analysis. Now, can we guarantee that our algorithm only uses relevant professions’ information and hasn’t utilized gender information encoded in the embeddings?</p>
+<p>Consider a scenario where CVs are processed through a language model to generate embeddings for a downstream machine learning task. How can we guarantee the model relies solely on professional information rather than gender features encoded within those embeddings? Without specific constraints, we cannot be certain that the algorithm’s decision-making is free from unwanted information. <strong>A guaranteed solution is to remove gender-related information from the embeddings before performing the analysis.</strong></p>
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="why_erasure.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p><img src="why_erasure.png" class="img-fluid figure-img" style="width:50.0%"></p>
 <figcaption>A Scenario For Erasure</figcaption>
 </figure>
 </div>
 </div>
-<p>We should also note that when training large-scale models, we have little control over the specific information they learn. Furthermore, depending on the downstream task, we might want to remove different types of information. Since it is impractical to train a separate foundation model for every possible requirement, concept erasure is a field that studies how to control the information within a model. This control can be applied either during training or afterward. The latter approach is known as post-hoc erasure, and it is what we focus on here.</p>
+<p>We should also note that during the training of large-scale models, we have minimal control over the specific information they encode. Furthermore, different downstream tasks may necessitate the removal of different types of information. Since retraining a foundation model for every unique requirement is impractical, it is more effective to develop methods for controlling the information within learned representations. Concept erasure studies this control, which can be applied either during training or afterward. The latter approach, known as post-hoc erasure, is our focus here.</p>
 </section>
 <section id="challenges-in-concept-erasure" class="level2">
 <h2 class="anchored" data-anchor-id="challenges-in-concept-erasure">Challenges in Concept Erasure</h2>
@@ -541,7 +392,7 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="challenges.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="challenges.png" class="img-fluid figure-img" style="width:60.0%"></p>
 <figcaption>Challenges in Concept Erasure</figcaption>
 </figure>
 </div>
@@ -550,17 +401,81 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="utility-erasure-trade-off" class="level2">
 <h2 class="anchored" data-anchor-id="utility-erasure-trade-off">Utility-Erasure Trade-off</h2>
-<p>To see the challenges behind the optimization of concept erasure, let us examine the performance of current erasure methods. First, note that if a representation does not contain information regarding a specific attribute, such as gender, we should not be able to classify gender from it. Therefore, if a classifier still achieves substantial accuracy for gender after its erasure, it indicates that the erasure is incomplete. This failure can be due to the difficulty of the optimization problem itself or a weak proxy for measuring the dependency between unwanted attributes and the representation.</p>
+<p>To evaluate the practical challenges of concept erasure, we examine the performance of current methods. Ideally, if a representation is free of a specific attribute (e.g., gender), it should be impossible to classify that attribute from the embeddings. Consequently, if a classifier maintains substantial accuracy post-erasure, the process is incomplete. This failure typically stems from optimization complexities or an inadequate proxy for measuring the dependency between the representation and the unwanted attribute.</p>
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="trade-off.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p><img src="trade-off.png" class="img-fluid figure-img" style="width:45.0%"></p>
 <figcaption>Utility-Erasure Trade-off</figcaption>
 </figure>
 </div>
 </div>
-<p>The figure above illustrates gender erasure on the <a href="https://arxiv.org/abs/1901.09451" class="advisor-link">BiasInBios</a> dataset, where we examine profession information during this erasure. We can see that several methods, such as <a href="https://aclanthology.org/2022.tacl-1.67/" class="advisor-link">FaRM</a> and <a href="https://aclanthology.org/2023.eacl-main.118/" class="advisor-link">KSAL</a>, leake significant traces of gender. <a href="https://arxiv.org/abs/2312.00194" class="advisor-link">KRaM</a> and <a href="https://aclanthology.org/2021.emnlp-main.43.pdf" class="advisor-link">AdS</a>, erase information more effectively; however, they still show around 68% accuracy, which is still considerably higher than the 53% accuracy of the random chance (the majority class) for this dataset.</p>
-<p>Intuitively, when we plot utility against the leakage of unwanted information, we expect a trade-off: as erasure progresses, utility accuracy is likely to drop. However, because none of the existing methods achieved full erasure in this example, the true nature of this trade-off remained unknown. Nevertheless, Obliviator finally uncovers it.</p>
+<p>The figure illustrates gender erasure on the <a href="https://arxiv.org/abs/1901.09451" class="advisor-link">BiasInBios</a> dataset. While methods like <a href="https://aclanthology.org/2022.tacl-1.67/" class="advisor-link">FaRM</a> and <a href="https://aclanthology.org/2023.eacl-main.118/" class="advisor-link">KSAL</a> leak significant gender information, <a href="https://arxiv.org/abs/2312.00194" class="advisor-link">KRaM</a> and <a href="https://aclanthology.org/2021.emnlp-main.43.pdf" class="advisor-link">AdS</a> are more effective. However, their 68% accuracy remains notably higher than the 53% random-chance baseline (majority class) for this dataset.</p>
+<p>Typically, concept erasure involves a fundamental trade-off: as erasure progresses, utility accuracy tends to decline. Analyzing the trade-off profile reveals the interaction between these competing objectives, providing a more comprehensive evaluation than single-point metrics. This profile also offers flexibility; when full erasure degrades downstream performance, we can select a “fair” balance that preserves utility while making it harder for the downstream model to exploit unwanted attributes. Because existing methods failed to achieve complete erasure in this context, the true nature of this trade-off remained hidden, well, until Obliviator uncovered it!</p>
+</section>
+<section id="nonlinear-guardedness" class="level2">
+<h2 class="anchored" data-anchor-id="nonlinear-guardedness">Nonlinear Guardedness</h2>
+<p>Now, let’s examine what complete erasure looks like in practice. The figure below illustrates Obliviator’s performance on the same dataset discussed earlier. These representations achieve approximately 62% accuracy for gender and 92% for profession.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gaurdedness.png" class="img-fluid figure-img" style="width:55.0%"></p>
+<figcaption>Nonlinear Guardedness</figcaption>
+</figure>
+</div>
+</div>
+<p>On the left, we see the distribution for professions, specifically physicians (green) and professors (violet). The adjacent plots show the gender distribution within each profession. As illustrated, the gender distributions within each class completely overlap, leaving no gender-related variation. Now, we can guarantee no downstream model can utilize gender-relevant information in its decision-making.</p>
+</section>
+<section id="erasure-means-statistical-independence" class="level2">
+<h2 class="anchored" data-anchor-id="erasure-means-statistical-independence">Erasure Means Statistical Independence</h2>
+<p>In the context of statistical learning, we treat embeddings and unwanted concepts as Random Variables (RVs), assuming access to samples from their joint distribution. This implies that for each embedding, the corresponding concept is known. Before erasure, a dependency, whether linear or non-linear, exists between these two variables. For erasure to be complete, this dependency must be eliminated. Mathematically, the erased representation must be statistically independent of the unwanted concept. Consequently, any method capable of quantifying and manipulating the statistical dependency between two RVs serves as a valid proxy for erasure, which can then be framed as the minimization of this quantity. However, the efficiency of the underlying optimization remains critical, as concept erasure is not just about removal but rather preserving essential information for the downstream task.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="erasure.png" class="img-fluid figure-img" style="width:55.0%"></p>
+<figcaption>Erasure <span class="math inline">\(\equiv\)</span> Statistical Independence</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="the-cost-of-independence" class="level2">
+<h2 class="anchored" data-anchor-id="the-cost-of-independence">The Cost of Independence</h2>
+<p>Statistical dependency between two RVs, such as <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, does not necessarily imply that we can directly predict <span class="math inline">\(X\)</span> from <span class="math inline">\(Y\)</span> or vice versa. For instance, if <span class="math inline">\(X\)</span> has a uniform distribution over <span class="math inline">\([0,1]\)</span>, but conditioning on <span class="math inline">\(Y=0\)</span> shifts <span class="math inline">\(X\)</span> to a Gaussian-like distribution with a mean of <span class="math inline">\(0.5\)</span> and a variance of <span class="math inline">\(0.01\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> still exhibit statistical dependency. Fundamentally, two RVs <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are statistically independent if and only if <span class="math inline">\(P(X|Y)=P(X)\)</span>. That is, knowing <span class="math inline">\(Y\)</span> does not alter the distribution of <span class="math inline">\(X\)</span>, meaning the underlying random processes generating each RV are entirely decoupled.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="statistical_indep.png" class="img-fluid figure-img" style="width:55.0%"></p>
+<figcaption>Independence and Trade-off Dynamics</figcaption>
+</figure>
+</div>
+</div>
+<p>Now, consider the figure above, where two RVs <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> share a random process, and we want the transformation <span class="math inline">\(Z=f(X)\)</span> to be independent of <span class="math inline">\(Y\)</span>. Note that <span class="math inline">\(f\)</span> cannot change the fact that the origins of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are entangled. Therefore, to achieve independence, <span class="math inline">\(f\)</span> must explicitly remove the effects caused by the shared random process in <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. If the downstream task requires information from that shared process, this removal will inevitably degrade performance, this is the fundamental mechanism behind the utility-erasure trade-off.</p>
+</section>
+<section id="a-functional-perspective-on-statistical-dependence" class="level2">
+<h2 class="anchored" data-anchor-id="a-functional-perspective-on-statistical-dependence">A Functional Perspective on Statistical Dependence</h2>
+<p>Various mathematical frameworks exist to formulate statistical dependence. In information theory, for instance, mutual information is commonly used to quantify the dependence between two random variables (RVs). Alternatively, we can characterize this dependence through the lens of moments and functions.</p>
+<p>A probability distribution <span class="math inline">\(P(X)\)</span> can often be fully characterized by its moments. If we can demonstrate that all moments of <span class="math inline">\(X\)</span> are independent of <span class="math inline">\(Y\)</span>, that is, <span class="math inline">\(E[X^n | Y] = E[X^n]\)</span> for all <span class="math inline">\(n\)</span>, this is equivalent to stating <span class="math inline">\(P(X|Y) = P(X)\)</span>, thus proving independence. Pearson’s correlation and the covariance of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are closely tied to this concept, but they only capture the first-order (linear) moment. While <span class="math inline">\(E[X|Y] = E[X]\)</span> guarantees <span class="math inline">\(\mathrm{Cov}[X,Y] = 0\)</span> (the idea behind many linear concept erasure methods), zero covariance alone is insufficient to conclude true statistical independence. To account for all modes of dependence, we must show that for any well-behaved functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span>, <span class="math inline">\(\mathrm{Cov}[f(X),g(Y)] = 0\)</span>.</p>
+<p>We can formalize this idea rigorously. Suppose <span class="math inline">\(\mathcal{F}\)</span> and <span class="math inline">\(\mathcal{G}\)</span> are function spaces rich enough to approximate any continuous function arbitrarily well. If we confine our search for <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> to these spaces, we can frame statistical independence as:</p>
+<p><span class="math display">\[\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] = 0 \]</span></p>
+<p>By selecting these function spaces carefully, this formulation becomes computationally tractable. A powerful choice is a Reproducing Kernel Hilbert Space (RKHS) with a characteristic kernel. Assuming <span class="math inline">\(\mathcal{F}\)</span> and <span class="math inline">\(\mathcal{G}\)</span> are characteristic RKHSs, we can express the covariance using the cross-covariance operator <span class="math inline">\(\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}\)</span>:</p>
+<p><span class="math display">\[\mathrm{Cov}[f(X),g(Y)] = \langle g , \mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX} f \rangle_{\mathcal{G}} \]</span></p>
+<p>While this may sound just a change in notation, it represents a profound shift: we can now analyze independence entirely through the cross-covariance operator <span class="math inline">\(\mathbb{C}\mathrm{ov}_{YX}\)</span>. Think of this operator as an infinite-dimensional matrix that can be approximated arbitrarily well by a finite-rank matrix. If this operator is the null operator (a matrix of all zeros), we can conclude that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent. If it is non-null, there exist functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> that capture a dependence. Therefore, we can take the norm of this operator as a metric for dependence. The Hilbert-Schmidt norm, the infinite-dimensional generalization of the Frobenius norm, provides such metric, yielding the Hilbert-Schmidt Independence Criterion (<a href="https://proceedings.neurips.cc/paper_files/paper/2007/file/d5cfead94f5350c12c322b5b664544c1-Paper.pdf" class="advisor-link">HSIC</a>):</p>
+<p><span class="math display">\[ \mathrm{HSIC}(\mathcal{F},\mathcal{G},P(X,Y)) =  \|\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}\|_{\scriptscriptstyle{HS}}^2 = 0 \iff X \perp\!\!\perp Y\]</span></p>
+</section>
+<section id="functional-approach-in-action" class="level2">
+<h2 class="anchored" data-anchor-id="functional-approach-in-action">Functional Approach In Action</h2>
+<p>Consider two RVs <span class="math inline">\(X = \sin(Z) + \varepsilon_x\)</span> and <span class="math inline">\(Y = \cos(Z) + \varepsilon_y\)</span>, where <span class="math inline">\(Z \sim \mathcal{U}(-\pi, \pi)\)</span> and <span class="math inline">\(\varepsilon_x, \varepsilon_y \sim \mathcal{N}(0,1)\)</span>. Clearly, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent through their shared variable <span class="math inline">\(Z\)</span>. The figure below illustrates this example. Notice that (linear) covariance between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is almost zero in this case, failing to capture the underlying dependency.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="functional.png" class="img-fluid figure-img" style="width:65.0%"></p>
+<figcaption>Functional Approach in Practice</figcaption>
+</figure>
+</div>
+</div>
+<p>As discussed above, we can search for the functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> that expose the dependency between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> by maximizing their covariance:</p>
+<p><span class="math display">\[\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] \quad \text{s.t.} \quad \|f\|_{\scriptscriptstyle\mathcal{F}}=\|g\|_{\scriptscriptstyle\mathcal{G}} = 1\]</span></p>
+<p>The norm constraint ensures that this optimization remains bounded when <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent. Intuitively, this optimization states that, given a constrained amount of smoothness (function norm in RKHS indicates smoothness), we search for the optimal pair of functions that makes the dependency between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> as linear as possible. This conceptually mirrors what typically happens in neural networks: we continuously apply non-linear transformations to the data until the very last layer, where a simple linear projection is finally used to make the prediction! The figure above demonstrates what these optimal functions look like for this specific example, and how the correlation increases significantly once the transformations are applied.</p>
 
 
 </section>

@@ -7,7 +7,7 @@ page-layout: full
 ::: {.grid}
 
 ::: {.g-col-12 .g-col-md-8}
-I am a Ph.D. student in Computer Science and Engineering at Michigan State University, advised by [Dr. Vishnu Boddeti](https://vishnu.boddeti.net/){.advisor-link}. I work on statistical machine learning with a primary focus on the mathematics of controlling representations. My research aims to develop algorithms that mitigate bias in AI models, improve fairness, protect data privacy, and advance safe and trustworthy AI systems.
+Hey there! I am a Ph.D. student in Computer Science and Engineering at Michigan State University, advised by [Dr. Vishnu Boddeti](https://vishnu.boddeti.net/){.advisor-link}. I work on statistical machine learning with a primary focus on the mathematics of controlling representations. My research aims to develop algorithms that mitigate bias in AI models, improve fairness, protect data privacy, and advance safe and trustworthy AI systems.
 
 I also have background in computational mechanics, specifically working with the eXtended Finite Element Method (XFEM), computational homogenization and the constitutive modeling of hyper-elastic material.
 
@@ -77,7 +77,7 @@ Our paper *Homomorphically Encrypted Biometric Template Fusion and Matching* was
 <u>Ramin Akbari</u>\*, Milad Afshari\*, Vishnu Boddeti<br>
 *Advances in Neural Information Processing Systems (NeurIPS), Dec 2025*
 
-Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries because they do not capture the statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, a method that captures nonlinear statistical dependencies to successfully guard against nonlinear adversaries. By using an iterative approach, Obliviator prevents mode-collapse and preserves as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.
+In this work, we present **Obliviator**, a method for performing concept erasure on pre-trained language models. Concept erasure poses two central challenges: first, capturing all types of dependencies between the concept and the learned representation; and second, keeping unrelated information intact. Obliviator addresses the shortcomings of current methods by guarding concepts against nonlinear adversaries while preserving more information for the same level of concept leakage compared to baselines, setting a formidable benchmark for the utility-erasure trade-off.
 
 
 <div class="button-container">

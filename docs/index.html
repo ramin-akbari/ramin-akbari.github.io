@@ -42,9 +42,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ed27be7785ba92535bd8daa77afc51db.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-b861443b43cc11101e2d24fa7b7448b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6a86a78734811510b7e3c4ad5777225b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f6dd98ab9cf7967d067338a49a1b7504.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-6a86a78734811510b7e3c4ad5777225b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,190 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&amp;family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&amp;display=swap" rel="stylesheet">
-<style>
-  /* --- BLOG-ONLY STYLING --- */
-  /* These rules ONLY apply when 'body-classes: blog-page' is in the .qmd file */
-
-  /* 1. Targets 'NeurIPS 2025' on the BLOG LISTING page */
-  .blog-page .listing-subtitle,
-  .blog-page .quarto-post .body .listing-subtitle {
-    font-size: 0.85em !important;
-    font-style: italic !important;
-    margin-top: -5px !important;
-    margin-bottom: 10px !important;
-    display: block !important; /* Ensures it renders correctly */
-  }
-
-  /* Ensure buttons stay clean on hover without underlines */
-  .blog-page .quarto-post .description a.btn:hover {
-    text-decoration: none !important;
-  }
-
-  /* Force Subtitle INSIDE THE POST (Both Light & Dark) */
-  .quarto-title-block .quarto-title-meta .subtitle,
-  header.quarto-title-block .subtitle {
-    font-size: 0.9em !important;
-    font-style: italic !important;
-    font-weight: 400 !important;
-    margin-top: 5px !important;
-  }
-
-  main.content img, 
-  .quarto-post .body img, 
-  .quarto-figure img {
-    border-radius: 25px !important; /* Larger rounding as requested */
-    transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease !important;
-    overflow: hidden !important;
-  }
-
-  /* 2. Dark Mode Specifics (Cyborg) */
-  body.quarto-dark main.content img,
-  body.quarto-dark .quarto-figure img {
-    border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Defines edge in darkness */
-    filter: brightness(0.9); /* Dims slightly for eye comfort */
-  }
-
-  body.quarto-dark main.content img:hover,
-  body.quarto-dark .quarto-figure img:hover {
-    filter: brightness(1.05); /* Glows slightly on hover */
-    transform: scale(1.01); 
-  }
-
-  /* 3. Light Mode Specifics (Cosmo) */
-  body.quarto-light main.content img,
-  body.quarto-light .quarto-figure img {
-    border: 1px solid rgba(0, 0, 0, 0.05) !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important; /* Soft depth */
-  }
-
-  body.quarto-light main.content img:hover,
-  body.quarto-light .quarto-figure img:hover {
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important; /* Shadow grows on hover */
-    transform: scale(1.01);
-  }
-
-  .quarto-listing-category .category-count,
-  .quarto-listing-category-count,
-  .quarto-category-count,
-  .category-count {
-    display: none !important;
-  }
-
-  /* 2. Make the category keywords under the title smaller */
-  .listing-categories .listing-category,
-  .quarto-post .listing-categories .listing-category {
-    font-size: 0.75em !important;
-    font-weight: 700 !important;
-    font-style: italic !important;
-    padding: 5px 10px !important;
-    line-height: 1 !important;
-    text-transform: none !important;
-    opacity: 1 !important; 
-  }
-
-  /* 1. Moves the categories to the absolute right edge of the screen */
-  /* 1. Stretch the parent container to the absolute edges of your screen */
-  .blog-page #quarto-content.quarto-container {
-    max-width: 100% !important; 
-    margin: 5px !important;
-    padding: 5px !important;
-    display: flex !important; /* This allows side-by-side positioning */
-    margin-right: 55px !important;
-  }
-
-  /* 2. Flush the blog content to the left edge */
-  .blog-page main.content {
-    margin-left: 4vw !important;  /* Give it a tiny 2% breathing room from the far left */
-    max-width: 70% !important;    /* Control how wide the text spans */
-    padding-left: 10px !important;
-  }
-
-  /* 3. Lock categories to the far right edge */
-  .blog-page #quarto-margin-sidebar {
-    position: fixed !important; 
-    right: 3vw !important;       /* 2% distance from the absolute right edge */
-    top: 100px !important; 
-    width: 250px !important;
-    font-size: 0.7em !important; /* Forced override for small text */
-  }
-
-
-  /* 3. Splits the blog post into 30% Image and 70% Text */
-  .blog-page .quarto-post .thumbnail {
-    flex-basis: 30% !important;
-    max-width: 30% !important;
-    padding-right: 5px;
-  }
-  
-  .blog-page .quarto-post .body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-basis: 75% !important;
-  }
-
-  .blog-page .btn-sm {
-    margin-right: 5px !important;
-    margin-bottom: 5px !important;
-    font-size: 0.75rem !important; /* Makes sure icons/text stay proportional */
-  }
-
-  /* --- GLOBAL STYLING --- */
-  /* These rules apply to EVERY page (Home and Blog) */
-
-  /* 1. LIGHT THEME (Normal & Hover) */
-  body.quarto-light .advisor-link {
-    color: #0056b3 !important;      /* Deep blue */
-    text-decoration: none !important;
-    border-bottom: none !important;
-  }
-  body.quarto-light .advisor-link:hover {
-    text-decoration: underline !important;
-    color: #004494 !important;      /* Slightly darker on hover */
-  }
-
-  /* 2. DARK THEME (Normal & Hover) */
-  body.quarto-dark .advisor-link {
-    color: #3498db !important;      /* Bright blue */
-    text-decoration: none !important;
-    border-bottom: none !important;
-  }
-  body.quarto-dark .advisor-link:hover {
-    text-decoration: underline !important;
-    color: #5dade2 !important;      /* Slightly lighter on hover */
-  }
-
-  /* Controls the appearance of post titles in lists */
-  .listing-title {
-    font-size: 1.2em !important;
-    font-weight: 600 !important;
-    margin-bottom: 0.5rem;
-  }
-
-  .quarto-categories .quarto-category, 
-  .quarto-title-meta .quarto-category,
-  .quarto-title-meta-contents .quarto-category {
-    font-size: 0.75em !important;
-    font-style: italic !important;
-    font-weight: 800 !important;
-    padding: 5px 10px !important;
-    line-height: 1 !important;
-    text-transform: none !important;
-    border-radius: 4px !important;
-    display: inline-block !important;
-    opacity: 1 !important; 
-    color: inherit !important;
-  }
-
-  
-
-  /* Ensures images in lists fill their containers properly */
-  .quarto-post .thumbnail img {
-    width: 100% !important;
-    height: auto !important;
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&amp;family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&amp;display=swap" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -484,7 +301,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="grid">
 <div class="g-col-12 g-col-md-8">
-<p>I am a Ph.D.&nbsp;student in Computer Science and Engineering at Michigan State University, advised by <a href="https://vishnu.boddeti.net/" class="advisor-link">Dr.&nbsp;Vishnu Boddeti</a>. I work on statistical machine learning with a primary focus on the mathematics of controlling representations. My research aims to develop algorithms that mitigate bias in AI models, improve fairness, protect data privacy, and advance safe and trustworthy AI systems.</p>
+<p>Hey there! I am a Ph.D.&nbsp;student in Computer Science and Engineering at Michigan State University, advised by <a href="https://vishnu.boddeti.net/" class="advisor-link">Dr.&nbsp;Vishnu Boddeti</a>. I work on statistical machine learning with a primary focus on the mathematics of controlling representations. My research aims to develop algorithms that mitigate bias in AI models, improve fairness, protect data privacy, and advance safe and trustworthy AI systems.</p>
 <p>I also have background in computational mechanics, specifically working with the eXtended Finite Element Method (XFEM), computational homogenization and the constitutive modeling of hyper-elastic material.</p>
 <ul>
 <li><strong>Ph.D.&nbsp;Student in Computer Science</strong> | Michigan State University</li>
@@ -538,7 +355,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="g-col-12 g-col-md-8">
 <p><span style="font-size: 1.15em;"><strong>Obliviator Reveals the Cost of Nonlinear Guardedness in Concept Erasure</strong></span><br> <u>Ramin Akbari</u>*, Milad Afshari*, Vishnu Boddeti<br> <em>Advances in Neural Information Processing Systems (NeurIPS), Dec 2025</em></p>
-<p>Concept erasure aims to remove unwanted attributes from learned representations. Current methods fail to guard against nonlinear adversaries because they do not capture the statistical dependencies between unwanted concepts and learned representations. We introduce Obliviator, a method that captures nonlinear statistical dependencies to successfully guard against nonlinear adversaries. By using an iterative approach, Obliviator prevents mode-collapse and preserves as much information as possible during erasure, achieving a strong benchmark on the utility-erasure trade-off.</p>
+<p>In this work, we present <strong>Obliviator</strong>, a method for performing concept erasure on pre-trained language models. Concept erasure poses two central challenges: first, capturing all types of dependencies between the concept and the learned representation; and second, keeping unrelated information intact. Obliviator addresses the shortcomings of current methods by guarding concepts against nonlinear adversaries while preserving more information for the same level of concept leakage compared to baselines, setting a formidable benchmark for the utility-erasure trade-off.</p>
 <div class="button-container">
 <p><a href="posts/obliviator/index.html" class="btn btn-outline-primary btn-sm" style=""><i class="bi bi-file-richtext"></i> Blog</a> <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-pdf"></i> arXiv</a> <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark btn-sm"><i class="bi bi-github"></i> Code</a> <a href="https://openreview.net/forum?id=GcjpjIHDZn" class="btn btn-outline-success btn-sm"><i class="bi bi-journal-check"></i> OpenReview</a> <a href="./posts/obliviator/poster.png" class="btn btn-outline-success btn-sm"><i class="bi bi-easel"></i> Poster</a> <a href="posts/obliviator/nips-slides/index.html" class="btn btn-outline-success btn-sm"><i class="bi bi-file-slides"></i> Slides</a></p>
 </div>
