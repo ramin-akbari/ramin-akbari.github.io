@@ -4,7 +4,7 @@
     "href": "blog.html",
     "title": "Blog",
     "section": "",
-    "text": "Deep Dive into Obliviator: Nonlinear Guardedness in Concept Erasure\n\n\nNeurIPS 2025\n\n\n\nRepresentation Learning\n\nStatistical Independence\n\nKernel Methods\n\n\n\nThis post discusses Obliviator, a method for capturing and removing specific concept dependencies within the learned representations of pre-trained language models. Concept erasure presents two central challenges: first, the need to target all types of dependencies for complete erasure; and second, the requirement to leave unrelated information untouched. We elaborate on how Obliviator navigates this balance to achieve a strong benchamrk in utility-erasure trade-off.\n\n arXiv  Code  Slides  Poster\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Deep Dive into Obliviator: Nonlinear Guardedness in Concept Erasure\n\n\nNeurIPS 2025\n\n\n\nRepresentation Learning\n\nStatistical Independence\n\nKernel Methods\n\n\n\nThis post discusses Obliviator, a method for capturing and removing specific concept dependencies within the learned representations of pre-trained language models. Concept erasure presents two central challenges: first, the need to target all types of dependencies for complete erasure; and second, the requirement to leave unrelated information untouched. We elaborate on how Obliviator navigates this balance to achieve a strong benchmark in utility-erasure trade-off.\n\n arXiv  Code  Slides  Poster\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
