@@ -214,6 +214,22 @@ body.quarto-dark .advisor-link:hover {
     text-decoration: underline;
 }
 
+.quarto-title-block .quarto-title-meta {
+    display: grid !important;
+    grid-template-columns: repeat(
+        3,
+        1fr
+    ) !important; /* Forces exactly 3 equal columns on the same row */
+    gap: 1.5rem !important;
+}
+
+/* Ensure it stacks cleanly on mobile phones */
+@media (max-width: 768px) {
+    .quarto-title-block .quarto-title-meta {
+        grid-template-columns: 1fr !important;
+    }
+}
+
 /* --- 6. THEME TOGGLE LOGO (Theme-Aware) --- */
 
 /* Align icon and remove hover underline */
