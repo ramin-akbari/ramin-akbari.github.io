@@ -202,3 +202,11 @@ body.quarto-dark .advisor-link:hover {
   width: 100% !important;
   height: auto !important;
 }
+
+.quarto-xref {
+  text-decoration: none;
+}
+
+.quarto-xref:hover {
+  text-decoration: underline;
+}

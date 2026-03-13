@@ -47,10 +47,10 @@ To evaluate the practical challenges of concept erasure, we examine the performa
 
 The figure illustrates gender erasure on the [BiasInBios](https://arxiv.org/abs/1901.09451){.advisor-link} dataset. While methods like [FaRM](https://aclanthology.org/2022.tacl-1.67/){.advisor-link} and [KSAL](https://aclanthology.org/2023.eacl-main.118/){.advisor-link} leak significant gender information, [KRaM](https://arxiv.org/abs/2312.00194){.advisor-link} and [AdS](https://aclanthology.org/2021.emnlp-main.43.pdf){.advisor-link} are more effective. However, their 68% accuracy remains notably higher than the 53% random-chance baseline (majority class) for this dataset.
 
-Typically, concept erasure involves a fundamental trade-off: as erasure progresses, utility accuracy tends to decline. Analyzing the trade-off profile reveals the interaction between these competing objectives, providing a more comprehensive evaluation than single-point metrics. This profile also offers flexibility; when full erasure degrades downstream performance, we can select a "fair" balance that preserves utility while making it harder for the downstream model to exploit unwanted attributes. Because existing methods failed to achieve complete erasure in this context, the true nature of this trade-off remained hidden, well, until Obliviator uncovered it!
+It is very likely to see a decline in utility accuracy as a concept is erased, as we expect a trade-off between utility and erasure. This trade-off profile reveals the dynamics of the competition between information removal and preservation throughout the erasure process. Analyzing this profile, rather than a single point as the final step of erasure, provides a more comprehensive evaluation of the underlying optimization approach used to formulate the erasure problem. Furthermore, when total erasure significantly degrades downstream performance, we can select a specific point along this trade-off curve that offers a better balance between utility and the leakage of unwanted attributes.
 
 
-## Nonlinear Guardedness
+## Nonlinear Guardedness {#sec-gaurd}
 Now, let's examine what complete erasure looks like in practice. The figure below illustrates Obliviator's performance on the same dataset discussed earlier. These representations achieve approximately 62% accuracy for gender and 92% for profession.
 
 ::: {style="text-align: center;"}
@@ -96,7 +96,7 @@ $$ \mathrm{HSIC}(\mathcal{F},\mathcal{G},P(X,Y)) =  \|\mathbb{C}\mathrm{ov}_{\sc
 
 
 ## Functional Approach In Action
-Consider two RVs $X = \sin(Z) + \varepsilon_x$ and $Y = \cos(Z) + \varepsilon_y$, where $Z \sim \mathcal{U}(-\pi, \pi)$ and $\varepsilon_x, \varepsilon_y \sim \mathcal{N}(0,1)$. Clearly, $X$ and $Y$ are dependent through their shared variable $Z$. The figure below illustrates this example. Notice that (linear) covariance between $X$ and $Y$ is almost zero in this case, failing to capture the underlying dependency.
+Consider two RVs $X = \sin(Z) + \varepsilon_x$ and $Y = \cos(Z) + \varepsilon_y$, where $Z \sim \mathcal{U}(-\pi, \pi)$ and $\varepsilon_x, \varepsilon_y \sim \mathcal{N}(0,1)$ are independent RVs. Clearly, $X$ and $Y$ are dependent through their shared variable $Z$. The figure below illustrates this example. Notice that (linear) covariance between $X$ and $Y$ is almost zero in this case, failing to capture the underlying dependency.
 
 ::: {style="text-align: center;"}
 ![Functional Approach in Practice](functional.png){fig-align="center" width="65%"}
@@ -104,7 +104,7 @@ Consider two RVs $X = \sin(Z) + \varepsilon_x$ and $Y = \cos(Z) + \varepsilon_y$
 
 As discussed above, we can search for the functions $f$ and $g$ that expose the dependency between $X$ and $Y$ by maximizing their covariance:
 
-$$\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] \quad \text{s.t.} \quad \|f\|_{\scriptscriptstyle\mathcal{F}}=\|g\|_{\scriptscriptstyle\mathcal{G}} = 1$$
+$$\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] \quad \text{s.t.} \quad \|f\|_{\scriptscriptstyle\mathcal{F}}=\|g\|_{\scriptscriptstyle\mathcal{G}} = 1$${#eq-func-approach}
 
 The norm constraint ensures that this optimization remains bounded when $X$ and $Y$ are dependent. Intuitively, this optimization states that, given a constrained amount of smoothness (function norm in RKHS indicates smoothness), we search for the optimal pair of functions that makes the dependency between $X$ and $Y$ as linear as possible. This conceptually mirrors what typically happens in neural networks: we continuously apply non-linear transformations to the data until the very last layer, where a simple linear projection is finally used to make the prediction! The figure above demonstrates what these optimal functions look like for this specific example, and how the correlation increases significantly once the transformations are applied.
 
@@ -121,7 +121,7 @@ However, it is important to clarify that "maximizing dependency" does not imply 
 
 Let the erased representation be $Z_\theta = \varepsilon(X;\theta)$, where $\varepsilon$ is our guarding function parameterized by $\theta$ and $X$ is the original learned representation. The optimization objective then reads:
 
-$$\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Erasure}} - \overbrace{\left(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\right)}^{\text{Preserves Information}}$$
+$$\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Erasure}} - \overbrace{\left(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\right)}^{\text{Preserves Information}}$${#eq-hsic-opt}
 
 As discussed above, maximizing $\mathrm{HSIC}(Z_\theta,X)$ follows a similar principle to $\mathrm{HSIC}(Z_\theta,Y)$. By requiring the erased representation to maintain a degree of dependency on the original representation, we signal the optimization to avoid collapsing the entire feature space during the erasure.
 
@@ -133,7 +133,52 @@ While the above optimization problem employs a mathematically sound proxy for ca
 ![Single-Stage Erasure Vs Obliviator](single_step.png){fig-align="center" width="60%"}
 :::
 
-The iterative approach shown in the curve above demonstrates the performance of Obliviator, which we will discuss in the next section.
+The iterative approach shown in the curve above demonstrates the performance of our proposed approach, Obliviator.
 
 
-## Introducing Obliviator
+## Motivations Behind Obliviator
+Obliviator solves the erasure optimization problem iteratively. The goal is to gradually transform the representation space, keeping the competition between objectives as smooth as possible. To see how this works, recall from @sec-gaurd that as erasure progresses, clusters corresponding to the unwanted concept move toward each other in the feature space. Eventually, they overlap, making the concept indistinguishable. 
+
+In high-dimensional spaces, the geometry of these unwanted concepts is complex. There are multiple topological ways to collapse these clusters and achieve full erasure. However, we are looking for a specific transformation, one that minimizes the destruction of unrelated structures (to the unwanted concept) in the feature space. If we simply apply standard gradient descent to the objective in @eq-hsic-opt, it is unlikely to find this least-destructive path on its own. 
+
+You might wonder why the information-preserving terms, $\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)$, do not just force gradient descent to preserve all those unrelated structures. Recall that HSIC is the Hilbert-Schmidt norm of the cross-covariance operator, which corresponds to the sum of its squared singular values. We can think of each singular value as the strength of a specific mode of dependency. Because gradient descent maximizes this overall sum rather than the individual components, the optimizer prioritizes the dependencies that are easiest to preserve. This reflects the inductive bias of the optimization. Depending on how complex and entangled the representation is, the optimizer will focus on these dominant terms at the expense of others, inevitably leading to the loss of certain structures and mode collapse.
+
+## Intervening in the Erasure Optimization
+One way to facilitate the optimization is to intervene right when the unrelated structures start to collapse and push toward each other as a result of removing the unwanted concept. We want to reorder/align the feature space so that the structures related to utility and other unrelated concepts become more distinguishable than the unwanted concept. This ensures the inductive bias of gradient descent is less destructive to those structures. So, how can we achieve this?
+
+Recall that in the functional approach, we searched for functions $f$ and $g$ to reveal the modes of dependency through a constrained optimization in @eq-func-approach. Following this idea, we can pause in the middle of our optimization and define a similar constrained problem. The goal here is to improve the visibility of the utility structures without touching the visibility of the unwanted concept.
+
+To do this, we first need a quantity that measures the visibility of the unwanted concept. Suppose $f$ is the solution to our optimization problem; we consider the following metric:
+
+$$\sup_g \quad \mathrm{Cov}[f(X),g(S)]$$
+
+In our constrained optimization, we want this metric to be zero. Note that this does not imply true statistical independence, as it does not check if the effect of $f$ is invertible. Mathematically, true independence would require:
+
+$$\sup_g \; \sup_h \quad \mathrm{Cov}[h(f(X)),g(S)] = 0$$
+
+However, this optimization (cascades of kernels) is intractable, so we rely on the first metric as a practical constraint.
+
+## Obliviator: Smooth Concept Erasure
+Now, we need to define the objective for finding $f$. Keep in mind that we are intervening in the middle of the training process. This means we have performed multiple steps of gradient descent, paused the optimization, and are now defining a new objective to properly align the feature space. Suppose $Z^i$ is the output of the optimization in the current iteration, $X$ is the random variable from the previous iteration, and $X^i$ is the current input. Similar to @eq-func-approach, we can write:
+
+$$\begin{gathered}
+\sup_{\{g_{\scriptscriptstyle\mathcal{I}}\}} \;\; \sup_{f} \quad 
+ \mathrm{Cov}[\bar{g}_{x^i}(X^i)\bar{f}(Z^i)]^2 
++\tau_x\,\mathrm{Cov}[\bar{g}_x(X)\bar{f}(Z^i)]^2 
++ \tau_y\,\mathrm{Cov}[\bar{g}_y(Y)\bar{f}(Z^i)]^2 \\
+\text{s.t.} \quad \sup_{g_s} \; \mathrm{Cov}[\bar{g}_s(S)\bar{f}(Z^i)] = 0, \quad
+\|g_{\scriptscriptstyle\mathcal{I}}\|_{\scriptscriptstyle\mathcal{G}_{\mathcal{I}}} 
+= \|f\|_{\scriptscriptstyle\mathcal{F}} = \|g_s\|_{\scriptscriptstyle\mathcal{G}_{s}}= 1 
+\end{gathered}$${#eq-evp}
+
+This optimization results in an eigenvalue problem. Unlike gradient descent, solving an eigenvalue problem allows us to explicitly select all modes of dependency above a certain tolerance, meaning we can manually keep every mode where the corresponding eigenvalue is greater than $\epsilon$. Each term in this optimization imposes a degree of importance for aligning the output $f(X)$ with the structures present in $X$, $X^i$, and $Z^i$, while the constraint ensures $f(X)$ does not align the representation with the unwanted concept $S$.
+
+Moreover, by introducing these intermediate RVs, we can augment the information-preserving part of the loss from @eq-hsic-opt. This is exactly how we counteract the inductive bias of gradient descent. Think about what happens when we calculate HSIC against different reference variables. Each term introduces a different singular value profile. A specific structure in the data might be highly visible (associated with the largest singular value) when measured from $Z$, but that same structure might not be the maximum singular value when measured from $X$. Because the profiles differ, gradient descent can no longer just take the easy way out and pick the maximum singular value for $Z$; doing so wouldn't maximize the other terms. To make the overall optimization rewarding, the optimizer is forced to pick up and preserve a much broader spectrum of dependencies. The modified objective becomes:
+
+$$\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Erasure}} - \overbrace{\left(\mathrm{HSIC}(Z^i_\theta,Y) + \mathrm{HSIC}(Z^i_\theta,X) + \mathrm{HSIC}(Z^i_\theta,X^i)\right)}^{\text{Preserves Information}}$${#eq-aug-opt}
+
+In summary, Obliviator decomposes the single-stage optimization from @eq-hsic-opt into an iterative, multi-stage process. Each iteration involves an encoder optimization step (via @eq-aug-opt) followed by an eigenvalue problem (via @eq-evp) that intervenes to realign the feature space. The figure below illustrates this entire cycle.
+
+::: {style="text-align: center;"}
+![Obliviator](obli.png){fig-align="center" width="60%"}
+:::

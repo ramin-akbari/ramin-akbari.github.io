@@ -315,7 +315,7 @@ window.Quarto = {
   <li><a href="#concept-erasure-and-its-motivation" id="toc-concept-erasure-and-its-motivation" class="nav-link active" data-scroll-target="#concept-erasure-and-its-motivation">Concept Erasure and its Motivation</a></li>
   <li><a href="#challenges-in-concept-erasure" id="toc-challenges-in-concept-erasure" class="nav-link" data-scroll-target="#challenges-in-concept-erasure">Challenges in Concept Erasure</a></li>
   <li><a href="#utility-erasure-trade-off" id="toc-utility-erasure-trade-off" class="nav-link" data-scroll-target="#utility-erasure-trade-off">Utility-Erasure Trade-off</a></li>
-  <li><a href="#nonlinear-guardedness" id="toc-nonlinear-guardedness" class="nav-link" data-scroll-target="#nonlinear-guardedness">Nonlinear Guardedness</a></li>
+  <li><a href="#sec-gaurd" id="toc-sec-gaurd" class="nav-link" data-scroll-target="#sec-gaurd">Nonlinear Guardedness</a></li>
   <li><a href="#erasure-means-statistical-independence" id="toc-erasure-means-statistical-independence" class="nav-link" data-scroll-target="#erasure-means-statistical-independence">Erasure Means Statistical Independence</a></li>
   <li><a href="#the-cost-of-independence" id="toc-the-cost-of-independence" class="nav-link" data-scroll-target="#the-cost-of-independence">The Cost of Independence</a></li>
   <li><a href="#a-functional-perspective-on-statistical-dependence" id="toc-a-functional-perspective-on-statistical-dependence" class="nav-link" data-scroll-target="#a-functional-perspective-on-statistical-dependence">A Functional Perspective on Statistical Dependence</a></li>
@@ -323,7 +323,9 @@ window.Quarto = {
   <li><a href="#why-functional-approach" id="toc-why-functional-approach" class="nav-link" data-scroll-target="#why-functional-approach">Why Functional Approach ?</a></li>
   <li><a href="#erasure-via-functional-approach" id="toc-erasure-via-functional-approach" class="nav-link" data-scroll-target="#erasure-via-functional-approach">Erasure via Functional Approach</a></li>
   <li><a href="#suboptimality-of-vanilla-optimization-setup" id="toc-suboptimality-of-vanilla-optimization-setup" class="nav-link" data-scroll-target="#suboptimality-of-vanilla-optimization-setup">Suboptimality of Vanilla Optimization Setup</a></li>
-  <li><a href="#introducing-obliviator" id="toc-introducing-obliviator" class="nav-link" data-scroll-target="#introducing-obliviator">Introducing Obliviator</a></li>
+  <li><a href="#motivations-behind-obliviator" id="toc-motivations-behind-obliviator" class="nav-link" data-scroll-target="#motivations-behind-obliviator">Motivations Behind Obliviator</a></li>
+  <li><a href="#intervening-in-the-erasure-optimization" id="toc-intervening-in-the-erasure-optimization" class="nav-link" data-scroll-target="#intervening-in-the-erasure-optimization">Intervening in the Erasure Optimization</a></li>
+  <li><a href="#obliviator-smooth-concept-erasure" id="toc-obliviator-smooth-concept-erasure" class="nav-link" data-scroll-target="#obliviator-smooth-concept-erasure">Obliviator: Smooth Concept Erasure</a></li>
   </ul>
 </nav>
     </div>
@@ -415,10 +417,10 @@ window.Quarto = {
 </div>
 </div>
 <p>The figure illustrates gender erasure on the <a href="https://arxiv.org/abs/1901.09451" class="advisor-link">BiasInBios</a> dataset. While methods like <a href="https://aclanthology.org/2022.tacl-1.67/" class="advisor-link">FaRM</a> and <a href="https://aclanthology.org/2023.eacl-main.118/" class="advisor-link">KSAL</a> leak significant gender information, <a href="https://arxiv.org/abs/2312.00194" class="advisor-link">KRaM</a> and <a href="https://aclanthology.org/2021.emnlp-main.43.pdf" class="advisor-link">AdS</a> are more effective. However, their 68% accuracy remains notably higher than the 53% random-chance baseline (majority class) for this dataset.</p>
-<p>Typically, concept erasure involves a fundamental trade-off: as erasure progresses, utility accuracy tends to decline. Analyzing the trade-off profile reveals the interaction between these competing objectives, providing a more comprehensive evaluation than single-point metrics. This profile also offers flexibility; when full erasure degrades downstream performance, we can select a “fair” balance that preserves utility while making it harder for the downstream model to exploit unwanted attributes. Because existing methods failed to achieve complete erasure in this context, the true nature of this trade-off remained hidden, well, until Obliviator uncovered it!</p>
+<p>It is very likely to see a decline in utility accuracy as a concept is erased, as we expect a trade-off between utility and erasure. This trade-off profile reveals the dynamics of the competition between information removal and preservation throughout the erasure process. Analyzing this profile, rather than a single point as the final step of erasure, provides a more comprehensive evaluation of the underlying optimization approach used to formulate the erasure problem. Furthermore, when total erasure significantly degrades downstream performance, we can select a specific point along this trade-off curve that offers a better balance between utility and the leakage of unwanted attributes.</p>
 </section>
-<section id="nonlinear-guardedness" class="level2">
-<h2 class="anchored" data-anchor-id="nonlinear-guardedness">Nonlinear Guardedness</h2>
+<section id="sec-gaurd" class="level2">
+<h2 class="anchored" data-anchor-id="sec-gaurd">Nonlinear Guardedness</h2>
 <p>Now, let’s examine what complete erasure looks like in practice. The figure below illustrates Obliviator’s performance on the same dataset discussed earlier. These representations achieve approximately 62% accuracy for gender and 92% for profession.</p>
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
@@ -468,7 +470,7 @@ window.Quarto = {
 </section>
 <section id="functional-approach-in-action" class="level2">
 <h2 class="anchored" data-anchor-id="functional-approach-in-action">Functional Approach In Action</h2>
-<p>Consider two RVs <span class="math inline">\(X = \sin(Z) + \varepsilon_x\)</span> and <span class="math inline">\(Y = \cos(Z) + \varepsilon_y\)</span>, where <span class="math inline">\(Z \sim \mathcal{U}(-\pi, \pi)\)</span> and <span class="math inline">\(\varepsilon_x, \varepsilon_y \sim \mathcal{N}(0,1)\)</span>. Clearly, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent through their shared variable <span class="math inline">\(Z\)</span>. The figure below illustrates this example. Notice that (linear) covariance between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is almost zero in this case, failing to capture the underlying dependency.</p>
+<p>Consider two RVs <span class="math inline">\(X = \sin(Z) + \varepsilon_x\)</span> and <span class="math inline">\(Y = \cos(Z) + \varepsilon_y\)</span>, where <span class="math inline">\(Z \sim \mathcal{U}(-\pi, \pi)\)</span> and <span class="math inline">\(\varepsilon_x, \varepsilon_y \sim \mathcal{N}(0,1)\)</span> are independent RVs. Clearly, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent through their shared variable <span class="math inline">\(Z\)</span>. The figure below illustrates this example. Notice that (linear) covariance between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is almost zero in this case, failing to capture the underlying dependency.</p>
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -478,7 +480,7 @@ window.Quarto = {
 </div>
 </div>
 <p>As discussed above, we can search for the functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> that expose the dependency between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> by maximizing their covariance:</p>
-<p><span class="math display">\[\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] \quad \text{s.t.} \quad \|f\|_{\scriptscriptstyle\mathcal{F}}=\|g\|_{\scriptscriptstyle\mathcal{G}} = 1\]</span></p>
+<p><span id="eq-func-approach"><span class="math display">\[\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] \quad \text{s.t.} \quad \|f\|_{\scriptscriptstyle\mathcal{F}}=\|g\|_{\scriptscriptstyle\mathcal{G}} = 1 \tag{1}\]</span></span></p>
 <p>The norm constraint ensures that this optimization remains bounded when <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent. Intuitively, this optimization states that, given a constrained amount of smoothness (function norm in RKHS indicates smoothness), we search for the optimal pair of functions that makes the dependency between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> as linear as possible. This conceptually mirrors what typically happens in neural networks: we continuously apply non-linear transformations to the data until the very last layer, where a simple linear projection is finally used to make the prediction! The figure above demonstrates what these optimal functions look like for this specific example, and how the correlation increases significantly once the transformations are applied.</p>
 </section>
 <section id="why-functional-approach" class="level2">
@@ -491,7 +493,7 @@ window.Quarto = {
 <p>Because HSIC provides a rigorous proxy for capturing all modes of dependency between an unwanted concept and a learned representation, we can now formally define the erasure problem. Suppose <span class="math inline">\(S\)</span> is the unwanted concept, and <span class="math inline">\(Y\)</span> represents the downstream utility. Concept erasure can be framed as an optimization problem where we minimize the statistical dependency between the erased representation and <span class="math inline">\(S\)</span>, while maximizing its dependency on <span class="math inline">\(Y\)</span>, using HSIC as our proxy to measure this dependence.</p>
 <p>However, it is important to clarify that “maximizing dependency” does not imply introducing a new source of dependence. Recall that the fundamental dependency between random variables is dictated by their underlying random processes, which we cannot alter. Instead, maximizing this dependence means transforming the representation space such that the existing shared information becomes easily detectable. In essence, by requiring this shared information to remain observable through the cross-covariance operator (between <span class="math inline">\(Y\)</span> and the erased representation), we explicitly signal the optimization process to leave the corresponding structure in the data intact as it performs erasure.</p>
 <p>Let the erased representation be <span class="math inline">\(Z_\theta = \varepsilon(X;\theta)\)</span>, where <span class="math inline">\(\varepsilon\)</span> is our guarding function parameterized by <span class="math inline">\(\theta\)</span> and <span class="math inline">\(X\)</span> is the original learned representation. The optimization objective then reads:</p>
-<p><span class="math display">\[\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Erasure}} - \overbrace{\left(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\right)}^{\text{Preserves Information}}\]</span></p>
+<p><span id="eq-hsic-opt"><span class="math display">\[\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Erasure}} - \overbrace{\left(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\right)}^{\text{Preserves Information}} \tag{2}\]</span></span></p>
 <p>As discussed above, maximizing <span class="math inline">\(\mathrm{HSIC}(Z_\theta,X)\)</span> follows a similar principle to <span class="math inline">\(\mathrm{HSIC}(Z_\theta,Y)\)</span>. By requiring the erased representation to maintain a degree of dependency on the original representation, we signal the optimization to avoid collapsing the entire feature space during the erasure.</p>
 </section>
 <section id="suboptimality-of-vanilla-optimization-setup" class="level2">
@@ -505,10 +507,48 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<p>The iterative approach shown in the curve above demonstrates the performance of Obliviator, which we will discuss in the next section.</p>
+<p>The iterative approach shown in the curve above demonstrates the performance of our proposed approach, Obliviator.</p>
 </section>
-<section id="introducing-obliviator" class="level2">
-<h2 class="anchored" data-anchor-id="introducing-obliviator">Introducing Obliviator</h2>
+<section id="motivations-behind-obliviator" class="level2">
+<h2 class="anchored" data-anchor-id="motivations-behind-obliviator">Motivations Behind Obliviator</h2>
+<p>Obliviator solves the erasure optimization problem iteratively. The goal is to gradually transform the representation space, keeping the competition between objectives as smooth as possible. To see how this works, recall from <a href="#sec-gaurd" class="quarto-xref">Section&nbsp;4</a> that as erasure progresses, clusters corresponding to the unwanted concept move toward each other in the feature space. Eventually, they overlap, making the concept indistinguishable.</p>
+<p>In high-dimensional spaces, the geometry of these unwanted concepts is complex. There are multiple topological ways to collapse these clusters and achieve full erasure. However, we are looking for a specific transformation, one that minimizes the destruction of unrelated structures (to the unwanted concept) in the feature space. If we simply apply standard gradient descent to the objective in <a href="#eq-hsic-opt" class="quarto-xref">Equation&nbsp;2</a>, it is unlikely to find this least-destructive path on its own.</p>
+<p>You might wonder why the information-preserving terms, <span class="math inline">\(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\)</span>, do not just force gradient descent to preserve all those unrelated structures. Recall that HSIC is the Hilbert-Schmidt norm of the cross-covariance operator, which corresponds to the sum of its squared singular values. We can think of each singular value as the strength of a specific mode of dependency. Because gradient descent maximizes this overall sum rather than the individual components, the optimizer prioritizes the dependencies that are easiest to preserve. This reflects the inductive bias of the optimization. Depending on how complex and entangled the representation is, the optimizer will focus on these dominant terms at the expense of others, inevitably leading to the loss of certain structures and mode collapse.</p>
+</section>
+<section id="intervening-in-the-erasure-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="intervening-in-the-erasure-optimization">Intervening in the Erasure Optimization</h2>
+<p>One way to facilitate the optimization is to intervene right when the unrelated structures start to collapse and push toward each other as a result of removing the unwanted concept. We want to reorder/align the feature space so that the structures related to utility and other unrelated concepts become more distinguishable than the unwanted concept. This ensures the inductive bias of gradient descent is less destructive to those structures. So, how can we achieve this?</p>
+<p>Recall that in the functional approach, we searched for functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> to reveal the modes of dependency through a constrained optimization in <a href="#eq-func-approach" class="quarto-xref">Equation&nbsp;1</a>. Following this idea, we can pause in the middle of our optimization and define a similar constrained problem. The goal here is to improve the visibility of the utility structures without touching the visibility of the unwanted concept.</p>
+<p>To do this, we first need a quantity that measures the visibility of the unwanted concept. Suppose <span class="math inline">\(f\)</span> is the solution to our optimization problem; we consider the following metric:</p>
+<p><span class="math display">\[\sup_g \quad \mathrm{Cov}[f(X),g(S)]\]</span></p>
+<p>In our constrained optimization, we want this metric to be zero. Note that this does not imply true statistical independence, as it does not check if the effect of <span class="math inline">\(f\)</span> is invertible. Mathematically, true independence would require:</p>
+<p><span class="math display">\[\sup_g \; \sup_h \quad \mathrm{Cov}[h(f(X)),g(S)] = 0\]</span></p>
+<p>However, this optimization (cascades of kernels) is intractable, so we rely on the first metric as a practical constraint.</p>
+</section>
+<section id="obliviator-smooth-concept-erasure" class="level2">
+<h2 class="anchored" data-anchor-id="obliviator-smooth-concept-erasure">Obliviator: Smooth Concept Erasure</h2>
+<p>Now, we need to define the objective for finding <span class="math inline">\(f\)</span>. Keep in mind that we are intervening in the middle of the training process. This means we have performed multiple steps of gradient descent, paused the optimization, and are now defining a new objective to properly align the feature space. Suppose <span class="math inline">\(Z^i\)</span> is the output of the optimization in the current iteration, <span class="math inline">\(X\)</span> is the random variable from the previous iteration, and <span class="math inline">\(X^i\)</span> is the current input. Similar to <a href="#eq-func-approach" class="quarto-xref">Equation&nbsp;1</a>, we can write:</p>
+<p><span id="eq-evp"><span class="math display">\[\begin{gathered}
+\sup_{\{g_{\scriptscriptstyle\mathcal{I}}\}} \;\; \sup_{f} \quad
+\mathrm{Cov}[\bar{g}_{x^i}(X^i)\bar{f}(Z^i)]^2
++\tau_x\,\mathrm{Cov}[\bar{g}_x(X)\bar{f}(Z^i)]^2
++ \tau_y\,\mathrm{Cov}[\bar{g}_y(Y)\bar{f}(Z^i)]^2 \\
+\text{s.t.} \quad \sup_{g_s} \; \mathrm{Cov}[\bar{g}_s(S)\bar{f}(Z^i)] = 0, \quad
+\|g_{\scriptscriptstyle\mathcal{I}}\|_{\scriptscriptstyle\mathcal{G}_{\mathcal{I}}}
+= \|f\|_{\scriptscriptstyle\mathcal{F}} = \|g_s\|_{\scriptscriptstyle\mathcal{G}_{s}}= 1
+\end{gathered} \tag{3}\]</span></span></p>
+<p>This optimization results in an eigenvalue problem. Unlike gradient descent, solving an eigenvalue problem allows us to explicitly select all modes of dependency above a certain tolerance, meaning we can manually keep every mode where the corresponding eigenvalue is greater than <span class="math inline">\(\epsilon\)</span>. Each term in this optimization imposes a degree of importance for aligning the output <span class="math inline">\(f(X)\)</span> with the structures present in <span class="math inline">\(X\)</span>, <span class="math inline">\(X^i\)</span>, and <span class="math inline">\(Z^i\)</span>, while the constraint ensures <span class="math inline">\(f(X)\)</span> does not align the representation with the unwanted concept <span class="math inline">\(S\)</span>.</p>
+<p>Moreover, by introducing these intermediate RVs, we can augment the information-preserving part of the loss from <a href="#eq-hsic-opt" class="quarto-xref">Equation&nbsp;2</a>. This is exactly how we counteract the inductive bias of gradient descent. Think about what happens when we calculate HSIC against different reference variables. Each term introduces a different singular value profile. A specific structure in the data might be highly visible (associated with the largest singular value) when measured from <span class="math inline">\(Z\)</span>, but that same structure might not be the maximum singular value when measured from <span class="math inline">\(X\)</span>. Because the profiles differ, gradient descent can no longer just take the easy way out and pick the maximum singular value for <span class="math inline">\(Z\)</span>; doing so wouldn’t maximize the other terms. To make the overall optimization rewarding, the optimizer is forced to pick up and preserve a much broader spectrum of dependencies. The modified objective becomes:</p>
+<p><span id="eq-aug-opt"><span class="math display">\[\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Erasure}} - \overbrace{\left(\mathrm{HSIC}(Z^i_\theta,Y) + \mathrm{HSIC}(Z^i_\theta,X) + \mathrm{HSIC}(Z^i_\theta,X^i)\right)}^{\text{Preserves Information}} \tag{4}\]</span></span></p>
+<p>In summary, Obliviator decomposes the single-stage optimization from <a href="#eq-hsic-opt" class="quarto-xref">Equation&nbsp;2</a> into an iterative, multi-stage process. Each iteration involves an encoder optimization step (via <a href="#eq-aug-opt" class="quarto-xref">Equation&nbsp;4</a>) followed by an eigenvalue problem (via <a href="#eq-evp" class="quarto-xref">Equation&nbsp;3</a>) that intervenes to realign the feature space. The figure below illustrates this entire cycle.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="obli.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Obliviator</figcaption>
+</figure>
+</div>
+</div>
 
 
 </section>
