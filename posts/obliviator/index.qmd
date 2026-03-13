@@ -5,6 +5,7 @@ date: "2026-03-10"
 subtitle: "NeurIPS 2025"
 categories: [Representation Learning, Statistical Independence, Kernel Methods]
 image: "teaser.png"
+toc: true
 description: |
   This post discusses **Obliviator**, a method for capturing and removing specific concept dependencies within the learned representations of pre-trained language models. Concept erasure presents two central challenges: first, the need to target all types of dependencies for complete erasure; and second, the requirement to leave unrelated information untouched. We elaborate on how Obliviator navigates this balance to achieve a strong benchmark in utility-erasure trade-off.<br><br>
   <div class="button-container">
@@ -14,11 +15,12 @@ description: |
   <a href="/posts/obliviator/poster.png" class="btn btn-outline-dark btn-sm"><i class="bi bi-easel"></i> Poster</a>
   </div>
 page-layout: full
-body-classes: post-page 
+body-classes: post-page
 ---
+<span id="manual-reading-time" style="display:none;">20 mins</span>
 
 ## Concept Erasure and its Motivation
-Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. 
+Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched.
 **But why would we need to erase something that has already been learned?**
 
 Consider a scenario where CVs are processed through a language model to generate embeddings for a downstream machine learning task. How can we guarantee the model relies solely on professional information rather than gender features encoded within those embeddings? Without specific constraints, we cannot be certain that the algorithm's decision-making is free from unwanted information. **A guaranteed solution is to remove gender-related information from the embeddings before performing the analysis.**
@@ -110,7 +112,7 @@ The norm constraint ensures that this optimization remains bounded when $X$ and 
 
 
 ## Why Functional Approach ?
-Thus far, our evaluation of statistical dependency has assumed that the underlying data distribution is known. In practice, however, this is rarely the case; instead, we are typically provided with embeddings, their corresponding unwanted concept labels, and occasionally the utility information we seek to preserve. Directly approximating probability distributions for high-dimensional data is notoriously difficult and requires massive sample sizes. 
+Thus far, our evaluation of statistical dependency has assumed that the underlying data distribution is known. In practice, however, this is rarely the case; instead, we are typically provided with embeddings, their corresponding unwanted concept labels, and occasionally the utility information we seek to preserve. Directly approximating probability distributions for high-dimensional data is notoriously difficult and requires massive sample sizes.
 
 Instead, the functional approach avoids this by relying on expectations, which can be empirically estimated from samples without explicitly modeling the distribution. With a finite number of samples, we are essentially approximating the infinite-dimensional cross-covariance operator with a finite-rank matrix, an approximation that becomes increasingly accurate as the sample size grows. This process is analogous to estimating a standard covariance matrix from empirical data. A critical factor in this finite-sample setting is the smoothness of the functions $f$ and $g$ used for linearization. In an RKHS, the norm constraint and the choice of kernel serve as regularizers that control this smoothness. Consequently, a poor choice of kernel can lead to an overestimation or underestimation of the true underlying dependency.
 
@@ -137,15 +139,14 @@ The iterative approach shown in the curve above demonstrates the performance of 
 
 
 ## Motivations Behind Obliviator
-Obliviator solves the erasure optimization problem iteratively. The goal is to gradually transform the representation space, keeping the competition between objectives as smooth as possible. To see how this works, recall from @sec-gaurd that as erasure progresses, clusters corresponding to the unwanted concept move toward each other in the feature space. Eventually, they overlap, making the concept indistinguishable. 
+Obliviator solves the erasure optimization problem iteratively. The goal is to gradually transform the representation space, keeping the competition between objectives as smooth as possible. To see how this works, recall from @sec-gaurd that as erasure progresses, clusters corresponding to the unwanted concept move toward each other in the feature space. Eventually, they overlap, making the concept indistinguishable.
 
-In high-dimensional spaces, the geometry of these unwanted concepts is complex. There are multiple topological ways to collapse these clusters and achieve full erasure. However, we are looking for a specific transformation, one that minimizes the destruction of unrelated structures (to the unwanted concept) in the feature space. If we simply apply standard gradient descent to the objective in @eq-hsic-opt, it is unlikely to find this least-destructive path on its own. 
+In high-dimensional spaces, the geometry of these unwanted concepts is complex. There are multiple topological ways to collapse these clusters and achieve full erasure. However, we are looking for a specific transformation, one that minimizes the destruction of unrelated structures (to the unwanted concept) in the feature space. If we simply apply standard gradient descent to the objective in @eq-hsic-opt, it is unlikely to find this least-destructive path on its own.
 
-You might wonder why the information-preserving terms, $\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)$, do not just force gradient descent to preserve all those unrelated structures. Recall that HSIC is the Hilbert-Schmidt norm of the cross-covariance operator, which corresponds to the sum of its squared singular values. We can think of each singular value as the strength of a specific mode of dependency. Because gradient descent maximizes this overall sum rather than the individual components, the optimizer prioritizes the dependencies that are easiest to preserve. This reflects the inductive bias of the optimization. Depending on how complex and entangled the representation is, the optimizer will focus on these dominant terms at the expense of others, inevitably leading to the loss of certain structures and mode collapse.
+You might wonder why the information-preserving terms, $\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)$, do not just force gradient descent to preserve all those unrelated structures. Recall that HSIC is squared Hilbert-Schmidt norm of the cross-covariance operator, which corresponds to the sum of its squared singular values. We can think of each singular value as the strength of a specific mode of dependency. Because gradient descent maximizes this overall sum rather than the individual components, the optimizer prioritizes the dependencies that are easiest to preserve. This reflects the inductive bias of the optimization. Depending on how complex and entangled the representation is, the optimizer will focus on these dominant terms at the expense of others, inevitably leading to the loss of certain structures and mode collapse.
 
 ## Intervening in the Erasure Optimization
 One way to facilitate the optimization is to intervene right when the unrelated structures start to collapse and push toward each other as a result of removing the unwanted concept. We want to reorder/align the feature space so that the structures related to utility and other unrelated concepts become more distinguishable than the unwanted concept. This ensures the inductive bias of gradient descent is less destructive to those structures. So, how can we achieve this?
-
 Recall that in the functional approach, we searched for functions $f$ and $g$ to reveal the modes of dependency through a constrained optimization in @eq-func-approach. Following this idea, we can pause in the middle of our optimization and define a similar constrained problem. The goal here is to improve the visibility of the utility structures without touching the visibility of the unwanted concept.
 
 To do this, we first need a quantity that measures the visibility of the unwanted concept. Suppose $f$ is the solution to our optimization problem; we consider the following metric:
@@ -162,13 +163,13 @@ However, this optimization (cascades of kernels) is intractable, so we rely on t
 Now, we need to define the objective for finding $f$. Keep in mind that we are intervening in the middle of the training process. This means we have performed multiple steps of gradient descent, paused the optimization, and are now defining a new objective to properly align the feature space. Suppose $Z^i$ is the output of the optimization in the current iteration, $X$ is the random variable from the previous iteration, and $X^i$ is the current input. Similar to @eq-func-approach, we can write:
 
 $$\begin{gathered}
-\sup_{\{g_{\scriptscriptstyle\mathcal{I}}\}} \;\; \sup_{f} \quad 
- \mathrm{Cov}[\bar{g}_{x^i}(X^i)\bar{f}(Z^i)]^2 
-+\tau_x\,\mathrm{Cov}[\bar{g}_x(X)\bar{f}(Z^i)]^2 
+\sup_{\{g_{\scriptscriptstyle\mathcal{I}}\}} \;\; \sup_{f} \quad
+ \mathrm{Cov}[\bar{g}_{x^i}(X^i)\bar{f}(Z^i)]^2
++\tau_x\,\mathrm{Cov}[\bar{g}_x(X)\bar{f}(Z^i)]^2
 + \tau_y\,\mathrm{Cov}[\bar{g}_y(Y)\bar{f}(Z^i)]^2 \\
 \text{s.t.} \quad \sup_{g_s} \; \mathrm{Cov}[\bar{g}_s(S)\bar{f}(Z^i)] = 0, \quad
-\|g_{\scriptscriptstyle\mathcal{I}}\|_{\scriptscriptstyle\mathcal{G}_{\mathcal{I}}} 
-= \|f\|_{\scriptscriptstyle\mathcal{F}} = \|g_s\|_{\scriptscriptstyle\mathcal{G}_{s}}= 1 
+\|g_{\scriptscriptstyle\mathcal{I}}\|_{\scriptscriptstyle\mathcal{G}_{\mathcal{I}}}
+= \|f\|_{\scriptscriptstyle\mathcal{F}} = \|g_s\|_{\scriptscriptstyle\mathcal{G}_{s}}= 1
 \end{gathered}$${#eq-evp}
 
 This optimization results in an eigenvalue problem. Unlike gradient descent, solving an eigenvalue problem allows us to explicitly select all modes of dependency above a certain tolerance, meaning we can manually keep every mode where the corresponding eigenvalue is greater than $\epsilon$. Each term in this optimization imposes a degree of importance for aligning the output $f(X)$ with the structures present in $X$, $X^i$, and $Z^i$, while the constraint ensures $f(X)$ does not align the representation with the unwanted concept $S$.
@@ -180,5 +181,5 @@ $$\inf_{\theta} \quad \overbrace{\mathrm{HSIC}(Z_\theta,S)}^{\text{Performs Eras
 In summary, Obliviator decomposes the single-stage optimization from @eq-hsic-opt into an iterative, multi-stage process. Each iteration involves an encoder optimization step (via @eq-aug-opt) followed by an eigenvalue problem (via @eq-evp) that intervenes to realign the feature space. The figure below illustrates this entire cycle.
 
 ::: {style="text-align: center;"}
-![Obliviator](obli.png){fig-align="center" width="60%"}
+![Obliviator](obli.png){fig-align="center" width="55%"}
 :::

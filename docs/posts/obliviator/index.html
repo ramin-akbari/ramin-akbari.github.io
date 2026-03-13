@@ -79,6 +79,29 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&amp;family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&amp;display=swap" rel="stylesheet">
 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const timeSpan = document.getElementById("manual-reading-time");
+    const metaGrid = document.querySelector(".quarto-title-meta");
+
+    if (timeSpan && metaGrid) {
+      const newDiv = document.createElement("div");
+      newDiv.innerHTML = `
+        <div class="quarto-title-meta-heading">READING TIME</div>
+        <div class="quarto-title-meta-contents">
+          <p><i class="bi bi-clock" style="margin-right: 4px;"></i>${timeSpan.textContent}</p>
+        </div>
+      `;
+
+      if (metaGrid.children.length > 1) {
+        metaGrid.insertBefore(newDiv, metaGrid.children[1]);
+      } else {
+        metaGrid.appendChild(newDiv);
+      }
+    }
+  });
+</script>
+
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -378,6 +401,7 @@ window.Quarto = {
 </header>
 
 
+<p><span id="manual-reading-time" style="display:none;">20 mins</span></p>
 <section id="concept-erasure-and-its-motivation" class="level2">
 <h2 class="anchored" data-anchor-id="concept-erasure-and-its-motivation">Concept Erasure and its Motivation</h2>
 <p>Concept erasure is a straightforward idea: we want to remove a specific concept from the learned representations of a model. In doing so, we must ensure that all other unrelated information in those representations remains untouched. <strong>But why would we need to erase something that has already been learned?</strong></p>
@@ -513,12 +537,11 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="motivations-behind-obliviator">Motivations Behind Obliviator</h2>
 <p>Obliviator solves the erasure optimization problem iteratively. The goal is to gradually transform the representation space, keeping the competition between objectives as smooth as possible. To see how this works, recall from <a href="#sec-gaurd" class="quarto-xref">Section&nbsp;4</a> that as erasure progresses, clusters corresponding to the unwanted concept move toward each other in the feature space. Eventually, they overlap, making the concept indistinguishable.</p>
 <p>In high-dimensional spaces, the geometry of these unwanted concepts is complex. There are multiple topological ways to collapse these clusters and achieve full erasure. However, we are looking for a specific transformation, one that minimizes the destruction of unrelated structures (to the unwanted concept) in the feature space. If we simply apply standard gradient descent to the objective in <a href="#eq-hsic-opt" class="quarto-xref">Equation&nbsp;2</a>, it is unlikely to find this least-destructive path on its own.</p>
-<p>You might wonder why the information-preserving terms, <span class="math inline">\(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\)</span>, do not just force gradient descent to preserve all those unrelated structures. Recall that HSIC is the Hilbert-Schmidt norm of the cross-covariance operator, which corresponds to the sum of its squared singular values. We can think of each singular value as the strength of a specific mode of dependency. Because gradient descent maximizes this overall sum rather than the individual components, the optimizer prioritizes the dependencies that are easiest to preserve. This reflects the inductive bias of the optimization. Depending on how complex and entangled the representation is, the optimizer will focus on these dominant terms at the expense of others, inevitably leading to the loss of certain structures and mode collapse.</p>
+<p>You might wonder why the information-preserving terms, <span class="math inline">\(\mathrm{HSIC}(Z_\theta,Y) + \mathrm{HSIC}(Z_\theta,X)\)</span>, do not just force gradient descent to preserve all those unrelated structures. Recall that HSIC is squared Hilbert-Schmidt norm of the cross-covariance operator, which corresponds to the sum of its squared singular values. We can think of each singular value as the strength of a specific mode of dependency. Because gradient descent maximizes this overall sum rather than the individual components, the optimizer prioritizes the dependencies that are easiest to preserve. This reflects the inductive bias of the optimization. Depending on how complex and entangled the representation is, the optimizer will focus on these dominant terms at the expense of others, inevitably leading to the loss of certain structures and mode collapse.</p>
 </section>
 <section id="intervening-in-the-erasure-optimization" class="level2">
 <h2 class="anchored" data-anchor-id="intervening-in-the-erasure-optimization">Intervening in the Erasure Optimization</h2>
-<p>One way to facilitate the optimization is to intervene right when the unrelated structures start to collapse and push toward each other as a result of removing the unwanted concept. We want to reorder/align the feature space so that the structures related to utility and other unrelated concepts become more distinguishable than the unwanted concept. This ensures the inductive bias of gradient descent is less destructive to those structures. So, how can we achieve this?</p>
-<p>Recall that in the functional approach, we searched for functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> to reveal the modes of dependency through a constrained optimization in <a href="#eq-func-approach" class="quarto-xref">Equation&nbsp;1</a>. Following this idea, we can pause in the middle of our optimization and define a similar constrained problem. The goal here is to improve the visibility of the utility structures without touching the visibility of the unwanted concept.</p>
+<p>One way to facilitate the optimization is to intervene right when the unrelated structures start to collapse and push toward each other as a result of removing the unwanted concept. We want to reorder/align the feature space so that the structures related to utility and other unrelated concepts become more distinguishable than the unwanted concept. This ensures the inductive bias of gradient descent is less destructive to those structures. So, how can we achieve this? Recall that in the functional approach, we searched for functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> to reveal the modes of dependency through a constrained optimization in <a href="#eq-func-approach" class="quarto-xref">Equation&nbsp;1</a>. Following this idea, we can pause in the middle of our optimization and define a similar constrained problem. The goal here is to improve the visibility of the utility structures without touching the visibility of the unwanted concept.</p>
 <p>To do this, we first need a quantity that measures the visibility of the unwanted concept. Suppose <span class="math inline">\(f\)</span> is the solution to our optimization problem; we consider the following metric:</p>
 <p><span class="math display">\[\sup_g \quad \mathrm{Cov}[f(X),g(S)]\]</span></p>
 <p>In our constrained optimization, we want this metric to be zero. Note that this does not imply true statistical independence, as it does not check if the effect of <span class="math inline">\(f\)</span> is invertible. Mathematically, true independence would require:</p>
@@ -544,7 +567,7 @@ window.Quarto = {
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="obli.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p><img src="obli.png" class="img-fluid figure-img" style="width:55.0%"></p>
 <figcaption>Obliviator</figcaption>
 </figure>
 </div>

@@ -11,9 +11,11 @@ website:
       - href: blog.qmd
         text: Blog
 
+reading-time: true
+
 format:
   html:
-    theme: 
+    theme:
       light: cosmo
       dark: cyborg
     darkmode: true
@@ -26,6 +28,30 @@ format:
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const timeSpan = document.getElementById("manual-reading-time");
+            const metaGrid = document.querySelector(".quarto-title-meta");
+
+            if (timeSpan && metaGrid) {
+              const newDiv = document.createElement("div");
+              newDiv.innerHTML = `
+                <div class="quarto-title-meta-heading">READING TIME</div>
+                <div class="quarto-title-meta-contents">
+                  <p><i class="bi bi-clock" style="margin-right: 4px;"></i>${timeSpan.textContent}</p>
+                </div>
+              `;
+
+              if (metaGrid.children.length > 1) {
+                metaGrid.insertBefore(newDiv, metaGrid.children[1]);
+              } else {
+                metaGrid.appendChild(newDiv);
+              }
+            }
+          });
+        </script>
     toc: true
+    reading-time: true
     page-layout: full
     linestretch: 1.85

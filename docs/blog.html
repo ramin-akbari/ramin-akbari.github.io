@@ -107,6 +107,29 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&amp;family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&amp;display=swap" rel="stylesheet">
 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const timeSpan = document.getElementById("manual-reading-time");
+    const metaGrid = document.querySelector(".quarto-title-meta");
+
+    if (timeSpan && metaGrid) {
+      const newDiv = document.createElement("div");
+      newDiv.innerHTML = `
+        <div class="quarto-title-meta-heading">READING TIME</div>
+        <div class="quarto-title-meta-contents">
+          <p><i class="bi bi-clock" style="margin-right: 4px;"></i>${timeSpan.textContent}</p>
+        </div>
+      `;
+
+      if (metaGrid.children.length > 1) {
+        metaGrid.insertBefore(newDiv, metaGrid.children[1]);
+      } else {
+        metaGrid.appendChild(newDiv);
+      }
+    }
+  });
+</script>
+
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -367,7 +390,7 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-left" data-index="0" data-categories="UmVwcmVzZW50YXRpb24lMjBMZWFybmluZyUyQ1N0YXRpc3RpY2FsJTIwSW5kZXBlbmRlbmNlJTJDS2VybmVsJTIwTWV0aG9kcw==" data-listing-date-sort="1773115200000" data-listing-file-modified-sort="1773375690928" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2953">
+<div class="quarto-post image-left" data-index="0" data-categories="UmVwcmVzZW50YXRpb24lMjBMZWFybmluZyUyQ1N0YXRpc3RpY2FsJTIwSW5kZXBlbmRlbmNlJTJDS2VybmVsJTIwTWV0aG9kcw==" data-listing-date-sort="1773115200000" data-listing-file-modified-sort="1773388322271" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2947">
 <div class="thumbnail"><a href="./posts/obliviator/index.html" class="no-external">
 
 <img loading="lazy" src="./posts/obliviator/teaser.png" class="thumbnail-image">
