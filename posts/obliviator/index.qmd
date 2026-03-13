@@ -11,7 +11,7 @@ description: |
   <div class="button-container">
   <a href="https://arxiv.org/abs/2603.07529" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-earmark-pdf"></i> arXiv</a>
   <a href="https://github.com/ramin-akbari/Obliviator" class="btn btn-outline-dark btn-sm"><i class="bi bi-github"></i> Code</a>
-  <a href="nips-slides/index.html" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-slides"></i> Slides</a>
+  <a href="/posts/obliviator/nips-slides/index.html" class="btn btn-outline-dark btn-sm"><i class="bi bi-file-slides"></i> Slides</a>
   <a href="/posts/obliviator/poster.png" class="btn btn-outline-dark btn-sm"><i class="bi bi-easel"></i> Poster</a>
   </div>
 page-layout: full
