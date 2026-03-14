@@ -82,17 +82,22 @@ Now, consider the figure above, where two RVs $X$ and $Y$ share a random process
 ## A Functional Perspective on Statistical Dependence
 Various mathematical frameworks exist to formulate statistical dependence. In information theory, for instance, mutual information is commonly used to quantify the dependence between two random variables (RVs). Alternatively, we can characterize this dependence through the lens of moments and functions.
 
-A probability distribution $P(X)$ can often be fully characterized by its moments. If we can demonstrate that all moments of $X$ are independent of $Y$, that is, $E[X^n | Y] = E[X^n]$ for all $n$, this is equivalent to stating $P(X|Y) = P(X)$, thus proving independence. Pearson's correlation and the covariance of $X$ and $Y$ are closely tied to this concept, but they only capture the first-order (linear) moment. While $E[X|Y] = E[X]$ guarantees $\mathrm{Cov}[X,Y] = 0$ (the idea behind many linear concept erasure methods), zero covariance alone is insufficient to conclude true statistical independence. To account for all modes of dependence, we must show that for any well-behaved functions $f$ and $g$, $\mathrm{Cov}[f(X),g(Y)] = 0$.
+Consider a random variable $X$ with bounded support (meaning it strictly lives within a finite range, like $a \le \|X\| \le b$). Because it cannot shoot off to infinity, its probability distribution $P(X)$ has finite moments and can be entirely represented by them.
+If we can prove that all the moments of $X$ are completely unaffected by another RV $Y$, meaning $\mathbb{E}[X^k | Y] = \mathbb{E}[X^k]$ for every integer $k$, then we have mathematically proven $P(X|Y) = P(X)$. That is the high-level idea behind the functional perspective for statistical independence.
+
+Usually, we reach for Pearson's correlation or covariance to measure this. But covariance only captures the first-order, linear relationship. It is a one-way street: if we have mean independence, $\mathbb{E}[X|Y] = \mathbb{E}[X]$, it mathematically guarantees zero covariance, $\mathrm{Cov}(X,Y) = 0$. But zero covariance does not guarantee mean independence, except in a few special edge cases, like when $Y$ is binary. This is the idea behind many linear concept erasure methods. They try to remove a sensitive attribute $Y$ from an embedding $X$ by finding a transformation where $\mathrm{Cov}(f(X), Y) = 0$. In the best-case scenario, this achieves mean independence, $\mathbb{E}[X|Y] = \mathbb{E}[X]$. There is no guarantee on the independence of higher-order moments.
+
+So, how do we augment the simple covariance so we can conclude true statistical independence? Instead of relying on polynomial moments like $X^k$, which only work perfectly on bounded domains, we upgrade to a much more powerful and generic scenario. If we can show that $\mathbb{E}[f(X)|Y] = \mathbb{E}[f(X)]$ for any bounded, well-behaved function $f$, we achieve independence. In the language of covariance: $X$ and $Y$ are independent if and only if $\mathrm{Cov}(f(X), g(Y)) = 0$ for all well-behaved functions $f$ and $g$.
 
 We can formalize this idea rigorously. Suppose $\mathcal{F}$ and $\mathcal{G}$ are function spaces rich enough to approximate any continuous function arbitrarily well. If we confine our search for $f$ and $g$ to these spaces, we can frame statistical independence as:
 
-$$\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;\mathrm{Cov}[f(X),g(Y)] = 0 $$
+$$\sup_{f \in \mathcal{F}} \; \sup_{g \in \mathcal{G}} \;|\mathrm{Cov}[f(X),g(Y)]| = 0 $$
 
 By selecting these function spaces carefully, this formulation becomes computationally tractable. A powerful choice is a Reproducing Kernel Hilbert Space (RKHS) with a characteristic kernel. Assuming $\mathcal{F}$ and $\mathcal{G}$ are characteristic RKHSs, we can express the covariance using the cross-covariance operator $\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}$:
 
 $$\mathrm{Cov}[f(X),g(Y)] = \langle g , \mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX} f \rangle_{\mathcal{G}} $$
 
-While this may sound just a change in notation, it represents a profound shift: we can now analyze independence entirely through the cross-covariance operator $\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}$. Think of this operator as an infinite-dimensional matrix that can be approximated arbitrarily well by a finite-rank matrix. If this operator is the null operator (a matrix of all zeros), we can conclude that $X$ and $Y$ are independent. If it is non-null, there exist functions $f$ and $g$ that capture a dependence. Therefore, we can take the norm of this operator as a metric for dependence. The Hilbert-Schmidt norm, the infinite-dimensional generalization of the Frobenius norm, provides such metric, yielding the Hilbert-Schmidt Independence Criterion ([HSIC](https://proceedings.neurips.cc/paper_files/paper/2007/file/d5cfead94f5350c12c322b5b664544c1-Paper.pdf){.advisor-link}):
+While this may sound like just a change in notation, it carries something deeper: we can now analyze independence entirely through the cross-covariance operator $\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}$. Think of this operator as an infinite-dimensional matrix that can be approximated arbitrarily well by a finite-rank matrix. If this operator is the null operator (a matrix of all zeros), we can conclude that $X$ and $Y$ are independent. If it is non-null, there exist functions $f$ and $g$ that capture a dependence. Therefore, we can take the norm of this operator as a metric for dependence. The Hilbert-Schmidt norm, the infinite-dimensional generalization of the Frobenius norm, provides such a metric, yielding the Hilbert-Schmidt Independence Criterion ([HSIC](https://proceedings.neurips.cc/paper_files/paper/2007/file/d5cfead94f5350c12c322b5b664544c1-Paper.pdf){.advisor-link}):
 
 $$ \mathrm{HSIC}(\mathcal{F},\mathcal{G},P(X,Y)) =  \|\mathbb{C}\mathrm{ov}_{\scriptscriptstyle YX}\|_{\scriptscriptstyle{HS}}^2 = 0 \iff X \perp\!\!\perp Y$$
 
@@ -164,10 +169,10 @@ Now, we need to define the objective for finding $f$. Keep in mind that we are i
 
 $$\begin{gathered}
 \sup_{\{g_{\scriptscriptstyle\mathcal{I}}\}} \;\; \sup_{f} \quad
- \mathrm{Cov}[\bar{g}_{x^i}(X^i)\bar{f}(Z^i)]^2
-+\tau_x\,\mathrm{Cov}[\bar{g}_x(X)\bar{f}(Z^i)]^2
-+ \tau_y\,\mathrm{Cov}[\bar{g}_y(Y)\bar{f}(Z^i)]^2 \\
-\text{s.t.} \quad \sup_{g_s} \; \mathrm{Cov}[\bar{g}_s(S)\bar{f}(Z^i)] = 0, \quad
+ \mathrm{Cov}[g_{x^i}(X^i), f(Z^i)]^2
++\tau_x\,\mathrm{Cov}[g_x(X), f(Z^i)]^2
++ \tau_y\,\mathrm{Cov}[g_y(Y),f(Z^i)]^2 \\
+\text{s.t.} \quad \sup_{g_s} \; \mathrm{Cov}[g_s(S), f(Z^i)] = 0, \quad
 \|g_{\scriptscriptstyle\mathcal{I}}\|_{\scriptscriptstyle\mathcal{G}_{\mathcal{I}}}
 = \|f\|_{\scriptscriptstyle\mathcal{F}} = \|g_s\|_{\scriptscriptstyle\mathcal{G}_{s}}= 1
 \end{gathered}$${#eq-evp}
