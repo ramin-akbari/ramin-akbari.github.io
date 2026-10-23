@@ -25,7 +25,7 @@
     "href": "index.html#selected-publications",
     "title": "Ramin Akbari",
     "section": "📝 Selected Publications",
-    "text": "📝 Selected Publications\n\n\n\n\n\nObliviator Reveals the Cost of Nonlinear Guardedness in Concept Erasure Ramin Akbari*, Milad Afshari*, Vishnu Boddeti Advances in Neural Information Processing Systems (NeurIPS), Dec 2025\nIn this work, we present Obliviator, a method for performing concept erasure on pre-trained language models. Concept erasure poses two central challenges: first, capturing all types of dependencies between the concept and the learned representation; and second, keeping unrelated information intact. Obliviator addresses the shortcomings of current methods by guarding concepts against nonlinear adversaries while preserving more information for the same level of concept leakage compared to baselines, setting a formidable benchmark for the utility-erasure trade-off.\n\n Blog  arXiv  Code  OpenReview  Poster  Slides"
+    "text": "📝 Selected Publications\nSONAR: Spectral Diversity for Lost Reasoning Modes in Masked Diffusion LMs Ramin Akbari, Mashrur Morshed, Vishnu Boddeti\n\n Slides\n\nObliviator Reveals the Cost of Nonlinear Guardedness in Concept Erasure Ramin Akbari*, Milad Afshari*, Vishnu Boddeti Advances in Neural Information Processing Systems (NeurIPS), Dec 2025\nIn this work, we present Obliviator, a method for performing concept erasure on pre-trained language models. Concept erasure poses two central challenges: first, capturing all types of dependencies between the concept and the learned representation; and second, keeping unrelated information intact. Obliviator addresses the shortcomings of current methods by guarding concepts against nonlinear adversaries while preserving more information for the same level of concept leakage compared to baselines, setting a formidable benchmark for the utility-erasure trade-off.\n\n Blog  arXiv  Code  OpenReview  Poster  Slides"
   },
   {
     "objectID": "posts/obliviator/index.html",
@@ -138,12 +138,5 @@
     "title": "About",
     "section": "",
     "text": "About this site"
-  },
-  {
-    "objectID": "index.html#presentations",
-    "href": "index.html#presentations",
-    "title": "Ramin Akbari",
-    "section": "🎤 Presentations",
-    "text": "🎤 Presentations\nSONAR: Spectral Diversity for Lost Reasoning Modes in Masked Diffusion LMs Ramin Akbari, Mashrur Morshed, Vishnu Boddeti ICLR 2027 submission\n\n Slides"
   }
 ]

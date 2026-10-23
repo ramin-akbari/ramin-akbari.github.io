@@ -66,6 +66,26 @@ Our paper *Homomorphically Encrypted Biometric Template Fusion and Matching* was
 :::
 
 ## 📝 Selected Publications
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+[![SONAR spectral diversification illustration](/posts/sonar/thumbnail-transparent.png){width="100%" .rounded style="background-color:#1A1B26;"}](posts/sonar/slides/index.html)
+:::
+
+::: {.g-col-12 .g-col-md-8}
+<span style="font-size: 1.15em;">**SONAR: Spectral Diversity for Lost Reasoning Modes in Masked Diffusion LMs**</span><br>
+<u>Ramin Akbari</u>, Mashrur Morshed, Vishnu Boddeti<br>
+
+<div class="button-container">
+  <a href="posts/sonar/slides/index.html" class="btn btn-outline-success btn-sm"><i class="bi bi-file-slides"></i> Slides</a>
+</div>
+:::
+
+:::
+
+---
+
 ::: {.grid}
 
 ::: {.g-col-12 .g-col-md-4}
@@ -91,25 +111,3 @@ In this work, we present **Obliviator**, a method for performing concept erasure
 :::
 
 :::
----
-
-## 🎤 Presentations
-
-::: {.grid}
-
-::: {.g-col-12 .g-col-md-4}
-[![SONAR spectral diversification illustration](/posts/sonar/thumbnail-transparent.png){width="100%" .rounded style="background-color:#1A1B26;"}](posts/sonar/slides/index.html)
-:::
-
-::: {.g-col-12 .g-col-md-8}
-**SONAR: Spectral Diversity for Lost Reasoning Modes in Masked Diffusion LMs**<br>
-<u>Ramin Akbari</u>, Mashrur Morshed, Vishnu Boddeti<br>
-*ICLR 2027 submission*
-
-<div class="button-container">
-  <a href="posts/sonar/slides/index.html" class="btn btn-outline-success btn-sm"><i class="bi bi-file-slides"></i> Slides</a>
-</div>
-:::
-
-:::
-
