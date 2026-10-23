@@ -98,7 +98,7 @@ In this work, we present **Obliviator**, a method for performing concept erasure
 ::: {.grid}
 
 ::: {.g-col-12 .g-col-md-4}
-[![SONAR spectral diversification illustration](/posts/sonar/thumbnail.png){width="100%" .rounded}](posts/sonar/slides/index.html)
+[![SONAR spectral diversification illustration](/posts/sonar/thumbnail-transparent.png){width="100%" .rounded style="background-color:#1A1B26;"}](posts/sonar/slides/index.html)
 :::
 
 ::: {.g-col-12 .g-col-md-8}

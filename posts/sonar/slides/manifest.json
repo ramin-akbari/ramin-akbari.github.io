@@ -1,7 +1,7 @@
 {
   "format_version": 1,
-  "source_offline_html_sha256": "3d0ad035fa7077af3d9c7f8fff3f5b5ebed7e61aceb4fe5ffc6d8579765fc659",
-  "web_html_sha256": "1ef7b11dd6bf984f7a42c871517e0bb9c9ea2c33f01673fd0f508e7870867881",
+  "source_offline_html_sha256": "f4be6759fa89f8b301a750e4735d6903360b4b6d7b0c3d4e6a4f461c1b08dd9b",
+  "web_html_sha256": "11318fa37029fd4b565ccc001cc186dd5d46978ebded20fa23ff061b6c57671c",
   "logical_slides": 25,
   "presenter_states": [
     1,
@@ -30,17 +30,17 @@
     8,
     6
   ],
-  "media_bytes": 152978477,
+  "media_bytes": 153058574,
   "assets": {
-    "media/6b6d9e2e85f4b662d8ea0c367e6c737b1ebdaa7a44e40bd40f84e20554096c89.jpg": {
+    "media/af7c24014c9475d910a994b2f40b0d98cac8095e541ebd4d8ee8755adc994555.jpg": {
       "mime": "image/jpeg",
-      "bytes": 955770,
-      "sha256": "6b6d9e2e85f4b662d8ea0c367e6c737b1ebdaa7a44e40bd40f84e20554096c89"
+      "bytes": 1022424,
+      "sha256": "af7c24014c9475d910a994b2f40b0d98cac8095e541ebd4d8ee8755adc994555"
     },
-    "media/b7d6c108b51fb3c1c659c04df29e74b430e282f01c0993439a9d54d3c3ea7a02.mp4": {
+    "media/abb9bdc263d29ff3d14d084a6fd0c9462b9057e180106b6b809b32ad6bf6aeb3.mp4": {
       "mime": "video/mp4",
-      "bytes": 180014,
-      "sha256": "b7d6c108b51fb3c1c659c04df29e74b430e282f01c0993439a9d54d3c3ea7a02"
+      "bytes": 193457,
+      "sha256": "abb9bdc263d29ff3d14d084a6fd0c9462b9057e180106b6b809b32ad6bf6aeb3"
     },
     "media/0949ee9c9ecef143cdc731a9df96a3291448ff818dd866e78f847a76f6a8f67a.jpg": {
       "mime": "image/jpeg",
