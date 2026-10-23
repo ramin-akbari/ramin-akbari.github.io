@@ -3,6 +3,7 @@ project:
   output-dir: docs
   resources:
     - "posts/obliviator/nips-slides"
+    - "posts/sonar/slides"
 
 website:
   title: "Ramin Akbari"

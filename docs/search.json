@@ -138,5 +138,12 @@
     "title": "About",
     "section": "",
     "text": "About this site"
+  },
+  {
+    "objectID": "index.html#presentations",
+    "href": "index.html#presentations",
+    "title": "Ramin Akbari",
+    "section": "🎤 Presentations",
+    "text": "🎤 Presentations\nSONAR: Spectral Diversity for Lost Reasoning Modes in Masked Diffusion LMs Ramin Akbari, Mashrur Morshed, Vishnu Boddeti ICLR 2027 submission\n\n Slides"
   }
 ]
