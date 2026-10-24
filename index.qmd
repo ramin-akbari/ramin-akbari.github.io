@@ -77,6 +77,8 @@ Our paper *Homomorphically Encrypted Biometric Template Fusion and Matching* was
 <span style="font-size: 1.15em;">**SONAR: Spectral Diversity for Lost Reasoning Modes in Masked Diffusion LMs**</span><br>
 <u>Ramin Akbari</u>, Mashrur Morshed, Vishnu Boddeti<br>
 
+In this work, we present **SONAR**, a method that helps masked diffusion language models explore reasoning strategies they often overlook. When generating multiple solutions to the same problem, these models can repeatedly follow the same unsuccessful approach. SONAR uses spectral analysis to measure overlap between the model’s internal representations of these solutions. It sends this information back through the model as a diversity signal, adjusting the samples’ representations to encourage different reasoning paths without changing the model’s weights. In coding and mathematics experiments, SONAR solves more problems and uncovers a wider range of valid strategies, suggesting that some reasoning abilities are already present but difficult to access through ordinary sampling.
+
 <div class="button-container">
   <a href="posts/sonar/slides/index.html" class="btn btn-outline-success btn-sm"><i class="bi bi-file-slides"></i> Slides</a>
 </div>
