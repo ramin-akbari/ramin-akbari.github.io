@@ -1,7 +1,7 @@
 {
   "format_version": 1,
-  "source_offline_html_sha256": "9677607ce24e9b92e50c74f8493148f09bc2f381e58a7b2a3feee63ef5dd9ad7",
-  "web_html_sha256": "48e87e3f85aa652ac31903d527823b156cddfbd698f5b05bf7ca4436a134ef6f",
+  "source_offline_html_sha256": "0b87a4b475fe681b277504f39105ef4faf2fdcac2e2c3826d5848c5b57635321",
+  "web_html_sha256": "2edd34754f0e6c8bb939a71ba03b3e38cf54aa4d1f052f024e4e61951fcfb316",
   "logical_slides": 25,
   "presenter_states": [
     1,
@@ -30,7 +30,7 @@
     8,
     6
   ],
-  "media_bytes": 151995585,
+  "media_bytes": 151848453,
   "assets": {
     "media/5f34ef65be5b0492200aec244bcb11e8cf2c6a9793f1a91fcbb4df6d870b046a.jpg": {
       "mime": "image/jpeg",
@@ -542,45 +542,45 @@
       "bytes": 443486,
       "sha256": "b1f419616a52339c532db90722e3551b48fb4dde970c11e486461d0cd61e512a"
     },
-    "media/d68018647553ac6003852f87b9359660a0abc373af3e29ed97f04c4e2e9d4b58.mp4": {
+    "media/4d12d13fef4a523cbdfffa50a1a0a315b1f064e6887c78a652122c02de1a1e41.mp4": {
       "mime": "video/mp4",
-      "bytes": 237168,
-      "sha256": "d68018647553ac6003852f87b9359660a0abc373af3e29ed97f04c4e2e9d4b58"
+      "bytes": 204851,
+      "sha256": "4d12d13fef4a523cbdfffa50a1a0a315b1f064e6887c78a652122c02de1a1e41"
     },
     "media/7486e4a5320c4acd9dcc94eb5ca56acca6435236d42fb5afcc07f83c87bdf14d.jpg": {
       "mime": "image/jpeg",
       "bytes": 197596,
       "sha256": "7486e4a5320c4acd9dcc94eb5ca56acca6435236d42fb5afcc07f83c87bdf14d"
     },
-    "media/93484119d5b10f4beb135c51faf18895a1405a22c1f0c9063a72e87682c90894.mp4": {
+    "media/aa3ff725817dfff70228ba835d258e083bcebd97dde6c0a493f17086fa12c09f.mp4": {
       "mime": "video/mp4",
-      "bytes": 266053,
-      "sha256": "93484119d5b10f4beb135c51faf18895a1405a22c1f0c9063a72e87682c90894"
+      "bytes": 252788,
+      "sha256": "aa3ff725817dfff70228ba835d258e083bcebd97dde6c0a493f17086fa12c09f"
     },
-    "media/1341f727f0fea4c02b3d7d05d2018cce4d948eefbe40cf6a2308fa6bcd17d560.jpg": {
+    "media/5a628a019e6a2d186ba29a2cba575e05aea3855d010b6137aea474afe951a60c.jpg": {
       "mime": "image/jpeg",
-      "bytes": 349377,
-      "sha256": "1341f727f0fea4c02b3d7d05d2018cce4d948eefbe40cf6a2308fa6bcd17d560"
+      "bytes": 322027,
+      "sha256": "5a628a019e6a2d186ba29a2cba575e05aea3855d010b6137aea474afe951a60c"
     },
-    "media/e61b3506ea86b56de10a0bf4f5a27983181be43be6a682f9a9e294f9aec8e8ab.mp4": {
+    "media/888c0a286cb5887aa2a04300b1701b7030a33c149e25cfe50ce6a58cbad6612a.mp4": {
       "mime": "video/mp4",
-      "bytes": 609307,
-      "sha256": "e61b3506ea86b56de10a0bf4f5a27983181be43be6a682f9a9e294f9aec8e8ab"
+      "bytes": 600515,
+      "sha256": "888c0a286cb5887aa2a04300b1701b7030a33c149e25cfe50ce6a58cbad6612a"
     },
-    "media/663ce51a709db4b308b72ccff522c4eb88e5349d5d22561cbbabac48bf7af026.jpg": {
+    "media/bbac962c40eb4cd94447e9762976476b104b9fff436e946ec3d18ef07be040ef.jpg": {
       "mime": "image/jpeg",
-      "bytes": 490418,
-      "sha256": "663ce51a709db4b308b72ccff522c4eb88e5349d5d22561cbbabac48bf7af026"
+      "bytes": 464188,
+      "sha256": "bbac962c40eb4cd94447e9762976476b104b9fff436e946ec3d18ef07be040ef"
     },
-    "media/0b362ce999a8288d88fea727b28c1ba61a9e8150e975ef36343c686a8d85c3b1.mp4": {
+    "media/ca26d3acf77d23bf92134e6a7e999f47465b739da804bb03218fb43beaad3914.mp4": {
       "mime": "video/mp4",
-      "bytes": 384058,
-      "sha256": "0b362ce999a8288d88fea727b28c1ba61a9e8150e975ef36343c686a8d85c3b1"
+      "bytes": 372285,
+      "sha256": "ca26d3acf77d23bf92134e6a7e999f47465b739da804bb03218fb43beaad3914"
     },
-    "media/b77a21631e604fbbde23b97d3087e7d2e28762c9eabc49c6297a988f6bbaa3aa.jpg": {
+    "media/e3cea86cebb9f2f7661f42f68fccb09f5d92f20f6f9df6aebedf50612a8c1027.jpg": {
       "mime": "image/jpeg",
-      "bytes": 484327,
-      "sha256": "b77a21631e604fbbde23b97d3087e7d2e28762c9eabc49c6297a988f6bbaa3aa"
+      "bytes": 456922,
+      "sha256": "e3cea86cebb9f2f7661f42f68fccb09f5d92f20f6f9df6aebedf50612a8c1027"
     },
     "media/b39079e3c1f84ceb0562a6189f170fe4c7303110df166a6163c3b17af2d661da.mp4": {
       "mime": "video/mp4",
