@@ -1,7 +1,7 @@
 {
   "format_version": 1,
-  "source_offline_html_sha256": "066cf2898f9040b089dd5dd0bfdba2f50bfbbd13f1bef5f5a134d45d1571c938",
-  "web_html_sha256": "b9886e6eb2c7eb6b4ab5e90317dff153a33d2b2650addb712a534f5b10759e81",
+  "source_offline_html_sha256": "5287238ec4773738374b3af5bff79c44c0467d9d5344cf8b4c5faa96c3bea684",
+  "web_html_sha256": "bba23ab593eea0e7e36e456c41556f5ec1d82b94aedec507c5dc9dfb30bc8413",
   "logical_slides": 25,
   "presenter_states": [
     1,
@@ -30,7 +30,7 @@
     6,
     4
   ],
-  "media_bytes": 158566859,
+  "media_bytes": 158581730,
   "assets": {
     "media/0b5e686d5103439de037b2251c5bc88e6fe69af612c6b1098771fc1071428df0.jpg": {
       "mime": "image/jpeg",
@@ -1952,45 +1952,45 @@
       "bytes": 298867,
       "sha256": "2cfee6db15eedf712c7248329e01e12614478e67664aa975f65e208b6320f7a5"
     },
-    "media/9e540bf6583dd80c8685eb233bf9d5bc2466ee72b572f475b8823bd8cefacf06.mp4": {
+    "media/a8d102296792a32f170de8a0017b4a05dd1d60ac08240117f50fa0f895c27b41.mp4": {
       "mime": "video/mp4",
-      "bytes": 487055,
-      "sha256": "9e540bf6583dd80c8685eb233bf9d5bc2466ee72b572f475b8823bd8cefacf06"
+      "bytes": 487372,
+      "sha256": "a8d102296792a32f170de8a0017b4a05dd1d60ac08240117f50fa0f895c27b41"
     },
     "media/fb26c96f4a13d7ccc3601d603872f4fbcc630f2f09330f10e5b0a1616e2a17d7.jpg": {
       "mime": "image/jpeg",
       "bytes": 394207,
       "sha256": "fb26c96f4a13d7ccc3601d603872f4fbcc630f2f09330f10e5b0a1616e2a17d7"
     },
-    "media/022e6fbc78471d0102879303ebef84d7dbed394a1f3a94c301fd6d85d7b949e8.mp4": {
+    "media/bd0cdf7b6cfcf8137acfa29f5fcba3e13b7063f5680290333e7ec12af0069cba.mp4": {
       "mime": "video/mp4",
-      "bytes": 286554,
-      "sha256": "022e6fbc78471d0102879303ebef84d7dbed394a1f3a94c301fd6d85d7b949e8"
+      "bytes": 286776,
+      "sha256": "bd0cdf7b6cfcf8137acfa29f5fcba3e13b7063f5680290333e7ec12af0069cba"
     },
-    "media/f8dc6ff34055a88a63bf6cdaf98aa1b49d484a1544dd7d0b35fe1d1ae8007b4d.jpg": {
+    "media/1d85f2c684fca214f5fd2d90e9c43dfa85360adf1f8d95639bcbbeac398a3b73.jpg": {
       "mime": "image/jpeg",
-      "bytes": 562269,
-      "sha256": "f8dc6ff34055a88a63bf6cdaf98aa1b49d484a1544dd7d0b35fe1d1ae8007b4d"
+      "bytes": 564241,
+      "sha256": "1d85f2c684fca214f5fd2d90e9c43dfa85360adf1f8d95639bcbbeac398a3b73"
     },
-    "media/48dbd78e37ebacef663b712afec1fa8f052d98c292f0d82b205c9625baa572ab.mp4": {
+    "media/4aa539a858d74dfc3b76a266c8944528a494419bfed7625ae60b1686693b8856.mp4": {
       "mime": "video/mp4",
-      "bytes": 272273,
-      "sha256": "48dbd78e37ebacef663b712afec1fa8f052d98c292f0d82b205c9625baa572ab"
+      "bytes": 273572,
+      "sha256": "4aa539a858d74dfc3b76a266c8944528a494419bfed7625ae60b1686693b8856"
     },
-    "media/488114206e94e7674a2cae1010bb7cceb5d6723c1042d1a458530a06b69ce72f.jpg": {
+    "media/23a55983bfd58ff0297eab35204584a2f4278a1c32ff151c9282d7822c082a30.jpg": {
       "mime": "image/jpeg",
-      "bytes": 643260,
-      "sha256": "488114206e94e7674a2cae1010bb7cceb5d6723c1042d1a458530a06b69ce72f"
+      "bytes": 646263,
+      "sha256": "23a55983bfd58ff0297eab35204584a2f4278a1c32ff151c9282d7822c082a30"
     },
-    "media/85fbd47355c09791407a82cf8b53c2860b42f2e8d6f8de91cdbdfe2e34fed878.mp4": {
+    "media/b6af345ba9376729e58a7fd63958703fdf5a3b3b480884f0cc935fff0d850b21.mp4": {
       "mime": "video/mp4",
-      "bytes": 384607,
-      "sha256": "85fbd47355c09791407a82cf8b53c2860b42f2e8d6f8de91cdbdfe2e34fed878"
+      "bytes": 388224,
+      "sha256": "b6af345ba9376729e58a7fd63958703fdf5a3b3b480884f0cc935fff0d850b21"
     },
-    "media/efcc99b549ab5553dfc19f36694ce660eae5d18711421938747ee32d16de00fe.jpg": {
+    "media/b8b0dd84088599c898756185531069aa2cdc5e871540b6152d98978a10b49f78.jpg": {
       "mime": "image/jpeg",
-      "bytes": 666278,
-      "sha256": "efcc99b549ab5553dfc19f36694ce660eae5d18711421938747ee32d16de00fe"
+      "bytes": 670719,
+      "sha256": "b8b0dd84088599c898756185531069aa2cdc5e871540b6152d98978a10b49f78"
     },
     "media/5646b6ea21d65c20b1d33c558efa0b29b9e337ee25d31c168aef34edbf1b0d0b.jpg": {
       "mime": "image/jpeg",
